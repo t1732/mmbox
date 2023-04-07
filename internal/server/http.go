@@ -5,8 +5,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
-	mdb "github.com/t1732/otegami/internal/model/db"
-	"github.com/t1732/otegami/internal/model/response"
+	mdb "github.com/t1732/mmbox/internal/model/db"
+	"github.com/t1732/mmbox/internal/model/response"
 	"gorm.io/gorm"
 )
 
@@ -33,10 +33,10 @@ func HttpNewServer(db *gorm.DB) *echo.Echo {
 		for i, e := range mails {
 			res[i] = response.Mail{
 				CreatedAt:     e.CreatedAt,
-				FromAddresses: mdb.ConvertToResponseMailAddresses(e.FromAddresses),
-				ToAddresses:   mdb.ConvertToResponseMailAddresses(e.ToAddresses),
-				CcAddresses:   mdb.ConvertToResponseMailAddresses(e.CcAddresses),
-				BccAddresses:  mdb.ConvertToResponseMailAddresses(e.BccAddresses),
+				FromAddresses: response.ConvertToMailAddresses(e.FromAddresses),
+				ToAddresses:   response.ConvertToMailAddresses(e.ToAddresses),
+				CcAddresses:   response.ConvertToMailAddresses(e.CcAddresses),
+				BccAddresses:  response.ConvertToMailAddresses(e.BccAddresses),
 				Subject:       e.Subject,
 				Text:          e.Text,
 				HTML:          e.HTML,

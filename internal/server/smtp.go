@@ -9,7 +9,7 @@ import (
 
 	"github.com/emersion/go-smtp"
 	"github.com/mnako/letters"
-	"github.com/t1732/otegami/internal/model/db"
+	"github.com/t1732/mmbox/internal/model/db"
 	"gorm.io/gorm"
 )
 

@@ -9,8 +9,8 @@ import (
 	"os/signal"
 	"time"
 
-	mdb "github.com/t1732/otegami/internal/model/db"
-	"github.com/t1732/otegami/internal/server"
+	mdb "github.com/t1732/mmbox/internal/model/db"
+	"github.com/t1732/mmbox/internal/server"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -63,7 +63,7 @@ func newDB() (*gorm.DB, error) {
 		},
 	)
 
-	db, err := gorm.Open(sqlite.Open("otegami.db"), &gorm.Config{
+	db, err := gorm.Open(sqlite.Open("mmbox.db"), &gorm.Config{
 		Logger: newLogger,
 	})
 	if err != nil {

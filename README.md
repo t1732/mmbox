@@ -1,3 +1,3 @@
-# Otegami
+# MMbox (Mock Mail Box)
 
-golang smtp mock server
+mock smtp server
