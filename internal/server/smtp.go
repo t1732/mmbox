@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"time"
 
 	"github.com/emersion/go-smtp"
@@ -29,12 +28,12 @@ func (s *Session) AuthPlain(username, password string) error {
 }
 
 func (s *Session) Mail(from string, opts *smtp.MailOptions) error {
-	log.Println("Mail from:", from)
+	// fmt.Printf("Mail from:%s\n", from)
 	return nil
 }
 
 func (s *Session) Rcpt(to string) error {
-	log.Println("Rcpt to:", to)
+	// fmt.Println("Rcpt to:%s\n", to)
 	return nil
 }
 
@@ -44,9 +43,9 @@ func (s *Session) Data(r io.Reader) error {
 		return err
 	}
 
-	fmt.Println(email.Headers.Subject)
-	fmt.Println(email.HTML)
-	fmt.Println(email.Text)
+	fmt.Printf("[SMTP] Received:%s", email.Headers.Subject)
+	//fmt.Println(email.HTML)
+	//fmt.Println(email.Text)
 
 	return nil
 }
@@ -57,7 +56,7 @@ func (s *Session) Logout() error {
 	return nil
 }
 
-func NewSmtpServer() error {
+func SmtpNewServer() *smtp.Server {
 	be := &Backend{}
 
 	s := smtp.NewServer(be)
@@ -70,10 +69,5 @@ func NewSmtpServer() error {
 	s.MaxRecipients = 50
 	s.AllowInsecureAuth = true
 
-	log.Println("Starting smtp server at", s.Addr)
-	if err := s.ListenAndServe(); err != nil {
-		return err
-	}
-
-	return nil
+	return s
 }
