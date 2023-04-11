@@ -13,8 +13,8 @@ func HttpNewServer(db *gorm.DB) *echo.Echo {
 	e.Logger.SetLevel(log.INFO)
 	e.HideBanner = true
 
-	rootCtl := controller.NewRootController()
-	e.GET("/", rootCtl.Show)
+	hcCtl := controller.NewHealthcheckController()
+	e.GET("/healthcheck", hcCtl.Show)
 
 	mailCtl := controller.NewMialController(db)
 	e.GET("/mails", mailCtl.Index)
