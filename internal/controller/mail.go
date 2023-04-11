@@ -24,7 +24,10 @@ func NewMialController(db *gorm.DB) mailImpl {
 
 func (h *mailController) Index(c echo.Context) error {
 	mails := []model.Mail{}
-	h.db.Select("id", "created_at", "source").Find(&mails)
+	h.db.
+		Select("id", "created_at", "source").
+		Scopes(model.MatchWord(c.QueryParam("word")), model.CreatedAt(c.QueryParam("date"))).
+		Find(&mails)
 
 	res := make([]response.Mail, len(mails))
 	for i, e := range mails {

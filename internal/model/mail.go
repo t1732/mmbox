@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"net/mail"
 	"strings"
 	"time"
@@ -47,4 +48,26 @@ func mailAddressesToString(mas []*mail.Address) (out string) {
 	}
 
 	return
+}
+
+func CreatedAt(s string) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		sw := strings.TrimSpace(s)
+		if sw == "" {
+			return db
+		}
+
+		return db.Where("strftime('%Y-%m-%d', created_at) = ?", s)
+	}
+}
+
+func MatchWord(w string) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		sw := strings.TrimSpace(w)
+		if sw == "" {
+			return db
+		}
+
+		return db.Where("search_text LIKE ?", fmt.Sprintf("%%%s%%", sw))
+	}
 }
