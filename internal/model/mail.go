@@ -11,9 +11,9 @@ import (
 
 type Mail struct {
 	ID         uint
-	CreatedAt  time.Time
-	SearchText string `gorm:"not null"`
-	Source     string `gorm:"not null"`
+	CreatedAt  time.Time `gorm:"not null;index:search"`
+	SearchText string    `gorm:"not null;index:search"`
+	Source     string    `gorm:"not null"`
 }
 
 func (m *Mail) BeforeSave(tx *gorm.DB) (err error) {
