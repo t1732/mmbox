@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Containerfile
+      target: dev
+    environment:
+      GOFLAGS: "-buildvcs=false"
+    ports:
+      - 1025:1025
+      - 8025:8025
+    volumes:
+      - type: bind
+        source: ./
+        target: /go/app

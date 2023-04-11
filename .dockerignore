@@ -1,0 +1,7 @@
+*
+
+!.air.toml
+!cmd
+!go.mod
+!go.sum
+!internal

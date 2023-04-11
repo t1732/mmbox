@@ -33,7 +33,7 @@ func main() {
 
 	e := server.HttpNewServer(db)
 	go func() {
-		if err := e.Start("127.0.0.1:8025"); err != nil && err != http.ErrServerClosed {
+		if err := e.Start(":8025"); err != nil && err != http.ErrServerClosed {
 			e.Logger.Fatal(err)
 		}
 	}()
