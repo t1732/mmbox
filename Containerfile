@@ -44,9 +44,9 @@ RUN go mod download \
     && go build -o /go/bin/mmbox -ldflags '-s -w -extldflags "-static"' ./cmd/mmbox/main.go
 
 # ============
-# production
+# release
 # ============
-FROM alpine:3.17.3 as prod
+FROM alpine:3.17.3 as release
 
 COPY --from=build /etc/passwd /etc/passwd
 COPY --from=build /etc/group /etc/group
