@@ -12,7 +12,7 @@ import (
 type Mail struct {
 	ID         uint
 	CreatedAt  time.Time `gorm:"not null;index:search"`
-	SearchText string    `gorm:"not null;index:search"`
+	SearchText string    `gorm:"not null"`
 	Source     string    `gorm:"not null"`
 }
 
