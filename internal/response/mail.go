@@ -6,7 +6,7 @@ import (
 )
 
 type Mail struct {
-	CreatedAt     time.Time     `json:"created_at"`
+	CreatedAt     time.Time     `json:"createdAt"`
 	FromAddresses []MailAddress `json:"fromAddresses"`
 	ToAddresses   []MailAddress `json:"toAddresses"`
 	CcAddresses   []MailAddress `json:"ccAddresses"`
