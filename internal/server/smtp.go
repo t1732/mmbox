@@ -9,8 +9,9 @@ import (
 
 	"github.com/emersion/go-smtp"
 	"github.com/mnako/letters"
-	"github.com/t1732/mmbox/internal/model/db"
 	"gorm.io/gorm"
+
+	"github.com/t1732/mmbox/internal/model"
 )
 
 // The Backend implements SMTP server methods.
@@ -56,33 +57,33 @@ func (s *Session) Data(r io.Reader) error {
 	fmt.Printf("[SMTP] Received:%s", email.Headers.Subject)
 
 	return s.db.Transaction(func(tx *gorm.DB) error {
-		mail := db.Mail{
+		mail := model.Mail{
 			Subject: email.Headers.Subject,
 			Text:    email.Text,
 			HTML:    email.HTML,
-			Plain:   db.Plain{Body: buf.String()},
+			Plain:   model.Plain{Body: buf.String()},
 		}
 		if err := s.db.Create(&mail).Error; err != nil {
 			return err
 		}
 
 		if err := s.db.Model(&mail).Association("FromAddresses").Append(
-			db.ConvertToMailAddress(email.Headers.From),
+			model.ConvertToMailAddress(email.Headers.From),
 		); err != nil {
 			return err
 		}
 		if err := s.db.Model(&mail).Association("ToAddresses").Append(
-			db.ConvertToMailAddress(email.Headers.To),
+			model.ConvertToMailAddress(email.Headers.To),
 		); err != nil {
 			return err
 		}
 		if err := s.db.Model(&mail).Association("CcAddresses").Append(
-			db.ConvertToMailAddress(email.Headers.Cc),
+			model.ConvertToMailAddress(email.Headers.Cc),
 		); err != nil {
 			return err
 		}
 		if err := s.db.Model(&mail).Association("BccAddresses").Append(
-			db.ConvertToMailAddress(email.Headers.Bcc),
+			model.ConvertToMailAddress(email.Headers.Bcc),
 		); err != nil {
 			return err
 		}

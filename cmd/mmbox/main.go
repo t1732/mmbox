@@ -9,11 +9,12 @@ import (
 	"os/signal"
 	"time"
 
-	mdb "github.com/t1732/mmbox/internal/model/db"
-	"github.com/t1732/mmbox/internal/server"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+
+	"github.com/t1732/mmbox/internal/model"
+	"github.com/t1732/mmbox/internal/server"
 )
 
 func main() {
@@ -70,13 +71,13 @@ func newDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&mdb.Plain{})
-	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&mdb.MailAddress{})
-	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&mdb.Mail{})
+	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Plain{})
+	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.MailAddress{})
+	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Mail{})
 	if err := db.AutoMigrate(
-		&mdb.Mail{},
-		&mdb.MailAddress{},
-		&mdb.Plain{},
+		&model.Mail{},
+		&model.MailAddress{},
+		&model.Plain{},
 	); err != nil {
 		return nil, err
 	}

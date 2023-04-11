@@ -1,8 +1,6 @@
-package db
+package model
 
-import (
-	"time"
-)
+import "time"
 
 type Mail struct {
 	ID            uint

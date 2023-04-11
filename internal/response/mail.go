@@ -1,8 +1,6 @@
 package response
 
-import (
-	"time"
-)
+import "time"
 
 type Mail struct {
 	CreatedAt     time.Time     `json:"created_at"`

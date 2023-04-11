@@ -6,8 +6,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 
-	mdb "github.com/t1732/mmbox/internal/model/db"
-	"github.com/t1732/mmbox/internal/model/response"
+	"github.com/t1732/mmbox/internal/model"
+	"github.com/t1732/mmbox/internal/response"
 )
 
 type mailImpl interface {
@@ -23,7 +23,7 @@ func NewMialController(db *gorm.DB) mailImpl {
 }
 
 func (h *mailController) Index(c echo.Context) error {
-	mails := []mdb.Mail{}
+	mails := []model.Mail{}
 	h.db.
 		Select("id", "created_at", "subject", "text", "html").
 		Preload("FromAddresses").
