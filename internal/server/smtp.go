@@ -3,12 +3,10 @@ package server
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"io"
 	"time"
 
 	"github.com/emersion/go-smtp"
-	"github.com/mnako/letters"
 	"gorm.io/gorm"
 
 	"github.com/t1732/mmbox/internal/model"
@@ -45,51 +43,17 @@ func (s *Session) Rcpt(to string) error {
 	return nil
 }
 
-func (s *Session) Data(r io.Reader) error {
+func (s *Session) Data(r io.Reader) (err error) {
 	buf := new(bytes.Buffer)
-	tr := io.TeeReader(r, buf)
-
-	email, err := letters.ParseEmail(tr)
-	if err != nil {
-		return err
+	if _, err = buf.ReadFrom(r); err != nil {
+		return
+	}
+	mail := model.Mail{Source: buf.String()}
+	if err = s.db.Create(&mail).Error; err != nil {
+		return
 	}
 
-	fmt.Printf("[SMTP] Received:%s", email.Headers.Subject)
-
-	return s.db.Transaction(func(tx *gorm.DB) error {
-		mail := model.Mail{
-			Subject: email.Headers.Subject,
-			Text:    email.Text,
-			HTML:    email.HTML,
-			Plain:   model.Plain{Body: buf.String()},
-		}
-		if err := s.db.Create(&mail).Error; err != nil {
-			return err
-		}
-
-		if err := s.db.Model(&mail).Association("FromAddresses").Append(
-			model.ConvertToMailAddress(email.Headers.From),
-		); err != nil {
-			return err
-		}
-		if err := s.db.Model(&mail).Association("ToAddresses").Append(
-			model.ConvertToMailAddress(email.Headers.To),
-		); err != nil {
-			return err
-		}
-		if err := s.db.Model(&mail).Association("CcAddresses").Append(
-			model.ConvertToMailAddress(email.Headers.Cc),
-		); err != nil {
-			return err
-		}
-		if err := s.db.Model(&mail).Association("BccAddresses").Append(
-			model.ConvertToMailAddress(email.Headers.Bcc),
-		); err != nil {
-			return err
-		}
-
-		return nil
-	})
+	return
 }
 
 func (s *Session) Reset() {}

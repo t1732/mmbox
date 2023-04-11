@@ -24,26 +24,25 @@ func NewMialController(db *gorm.DB) mailImpl {
 
 func (h *mailController) Index(c echo.Context) error {
 	mails := []model.Mail{}
-	h.db.
-		Select("id", "created_at", "subject", "text", "html").
-		Preload("FromAddresses").
-		Preload("ToAddresses").
-		Preload("CcAddresses").
-		Preload("BccAddresses").
-		Find(&mails)
+	h.db.Select("id", "created_at", "source").Find(&mails)
 
 	res := make([]response.Mail, len(mails))
 	for i, e := range mails {
-		res[i] = response.Mail{
-			CreatedAt:     e.CreatedAt,
-			FromAddresses: response.ConvertToMailAddresses(e.FromAddresses),
-			ToAddresses:   response.ConvertToMailAddresses(e.ToAddresses),
-			CcAddresses:   response.ConvertToMailAddresses(e.CcAddresses),
-			BccAddresses:  response.ConvertToMailAddresses(e.BccAddresses),
-			Subject:       e.Subject,
-			Text:          e.Text,
-			HTML:          e.HTML,
+		pe, err := e.Parse()
+		if err != nil {
+			return err
 		}
+
+		res[i] = response.Mail{
+			CreatedAt: e.CreatedAt,
+			Subject:   pe.Headers.Subject,
+			Text:      pe.Text,
+			HTML:      pe.HTML,
+		}
+		res[i].SetFromAddresses(pe.Headers.From)
+		res[i].SetToAddresses(pe.Headers.To)
+		res[i].SetCcAddresses(pe.Headers.Cc)
+		res[i].SetBccAddresses(pe.Headers.Bcc)
 	}
 
 	return c.JSON(http.StatusOK, res)

@@ -71,14 +71,8 @@ func newDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Plain{})
-	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.MailAddress{})
 	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Mail{})
-	if err := db.AutoMigrate(
-		&model.Mail{},
-		&model.MailAddress{},
-		&model.Plain{},
-	); err != nil {
+	if err := db.AutoMigrate(&model.Mail{}); err != nil {
 		return nil, err
 	}
 
