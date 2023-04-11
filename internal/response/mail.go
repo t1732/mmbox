@@ -12,6 +12,8 @@ type Mail struct {
 	CcAddresses   []MailAddress `json:"ccAddresses"`
 	BccAddresses  []MailAddress `json:"bccAddresses"`
 	Subject       string        `json:"subject"`
+	MessageID     string        `json:"messageId"`
+	ContentType   string        `json:"contentType"`
 	Text          string        `json:"text"`
 	HTML          string        `json:"html"`
 }

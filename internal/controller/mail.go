@@ -34,10 +34,12 @@ func (h *mailController) Index(c echo.Context) error {
 		}
 
 		res[i] = response.Mail{
-			CreatedAt: e.CreatedAt,
-			Subject:   pe.Headers.Subject,
-			Text:      pe.Text,
-			HTML:      pe.HTML,
+			CreatedAt:   e.CreatedAt,
+			Subject:     pe.Headers.Subject,
+			MessageID:   string(pe.Headers.MessageID),
+			ContentType: pe.Headers.ContentType.ContentType,
+			Text:        pe.Text,
+			HTML:        pe.HTML,
 		}
 		res[i].SetFromAddresses(pe.Headers.From)
 		res[i].SetToAddresses(pe.Headers.To)
