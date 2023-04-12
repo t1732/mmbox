@@ -7,6 +7,7 @@ services:
       target: dev
     environment:
       GOFLAGS: "-buildvcs=false"
+      MMBOX_DB_FILE_PATH: "/data/mmbox.db"
     ports:
       - 1025:1025
       - 8025:8025
@@ -14,3 +15,11 @@ services:
       - type: bind
         source: ./
         target: /go/app
+      - type: volume
+        source: sqlite-data
+        target: /data
+        volume:
+          nocopy: true
+
+volumes:
+  sqlite-data:

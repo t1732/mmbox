@@ -64,7 +64,12 @@ func newDB() (*gorm.DB, error) {
 		},
 	)
 
-	db, err := gorm.Open(sqlite.Open("mmbox.db"), &gorm.Config{
+	path := os.Getenv("MMBOX_DB_FILE_PATH")
+	if path == "" {
+		path = "./mmbox.db"
+	}
+
+	db, err := gorm.Open(sqlite.Open(path), &gorm.Config{
 		Logger: newLogger,
 	})
 	if err != nil {
