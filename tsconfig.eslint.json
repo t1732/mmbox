@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["webui/src/**/*.js", "webui/src/**/*.jsx", "webui/src/**/*.ts", "webui/src/**/*.tsx"],
+  "exclude": ["node_modules"]
+}

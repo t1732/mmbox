@@ -1,0 +1,54 @@
+{
+  "name": "mmbox",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 8825",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint 'webui/src/**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint --fix 'webui/src/**/*.{js,jsx,ts,tsx}'",
+    "lint:conflict": "eslint-config-prettier 'webui/src/**/*.{js,jsx,ts,tsx}'",
+    "preinstall": "typesync || :",
+    "prepare": "simple-git-hooks > /dev/null"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.34",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.38.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7",
+    "prettier-plugin-tailwindcss": "^0.2.7",
+    "simple-git-hooks": "^2.8.1",
+    "typescript": "^5.0.4",
+    "vitawind": "^2.2.4",
+    "vite": "^4.2.1",
+    "vite-tsconfig-paths": "^4.1.0"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write --loglevel=error",
+      "eslint --fix --quiet"
+    ],
+    "{public,src}/**/*.{html,gql,graphql,json}": [
+      "prettier --write --loglevel=error"
+    ]
+  }
+}

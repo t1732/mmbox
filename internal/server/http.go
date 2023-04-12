@@ -22,7 +22,8 @@ func HttpNewServer(db *gorm.DB) *echo.Echo {
 	}
 	e.Logger.SetLevel(logLv)
 
-	e.File("/", "public/index.html")
+	e.Static("/assets", "dist/assets")
+	e.File("/", "dist/index.html")
 
 	hcCtl := controller.NewHealthcheckController()
 	e.GET("/healthcheck", hcCtl.Show)

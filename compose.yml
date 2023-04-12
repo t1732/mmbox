@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Containerfile
-      target: dev
+      target: dev-backend
     environment:
       GOFLAGS: "-buildvcs=false"
       MMBOX_DB_FILE_PATH: "/data/mmbox.db"
@@ -21,6 +21,20 @@ services:
         target: /data
         volume:
           nocopy: true
+
+  webui:
+    build:
+      context: .
+      dockerfile: Containerfile
+      target: dev-webui
+      args:
+        NPM_VERSION: "9.6.4"
+    ports:
+      - 8825:8825
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
 
 volumes:
   sqlite-data:

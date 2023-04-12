@@ -1,7 +1,7 @@
 # ============
-# development
+# dev backend
 # ============
-FROM golang:1.20.2-alpine as dev
+FROM golang:1.20.2-alpine as dev-backend
 
 RUN apk add --no-cache gcc musl-dev git
 
@@ -21,6 +21,21 @@ ENV GOARCH=${GOARCH}
 ENV CGO_ENABLED=1
 
 CMD ["air", "-c", ".air.toml"]
+
+# ============
+# dev webui
+# ============
+FROM node:19.8.1-alpine3.17 as dev-webui
+
+ENV TZ=Asia/Tokyo
+ENV APP_ROOT=/app
+
+WORKDIR ${APP_ROOT}
+
+ARG NPM_VERSION
+RUN npm install -g npm@${NPM_VERSION}
+
+CMD ["npm", "run", "dev"]
 
 # ============
 # build
