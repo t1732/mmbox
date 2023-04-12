@@ -8,6 +8,7 @@ services:
     environment:
       GOFLAGS: "-buildvcs=false"
       MMBOX_DB_FILE_PATH: "/data/mmbox.db"
+      DEBUG: "true"
     ports:
       - 1025:1025
       - 8025:8025

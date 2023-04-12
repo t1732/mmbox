@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"log"
 	"time"
 
 	"github.com/emersion/go-smtp"
@@ -34,12 +35,12 @@ func (s *Session) AuthPlain(username, password string) error {
 }
 
 func (s *Session) Mail(from string, opts *smtp.MailOptions) error {
-	// fmt.Printf("Mail from:%s\n", from)
+	log.Printf("Mail from:%s\n", from)
 	return nil
 }
 
 func (s *Session) Rcpt(to string) error {
-	// fmt.Println("Rcpt to:%s\n", to)
+	log.Printf("Rcpt to:%s\n", to)
 	return nil
 }
 

@@ -54,11 +54,15 @@ func main() {
 }
 
 func newDB() (*gorm.DB, error) {
+	logLv := logger.Silent
+	if os.Getenv("DEBUG") == "true" {
+		logLv = logger.Info
+	}
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
 		logger.Config{
 			SlowThreshold:             time.Second,
-			LogLevel:                  logger.Info,
+			LogLevel:                  logLv,
 			IgnoreRecordNotFoundError: true,
 			Colorful:                  true,
 		},

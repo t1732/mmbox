@@ -1,7 +1,10 @@
 package server
 
 import (
+	"os"
+
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 	"gorm.io/gorm"
 
@@ -10,8 +13,14 @@ import (
 
 func HttpNewServer(db *gorm.DB) *echo.Echo {
 	e := echo.New()
-	e.Logger.SetLevel(log.INFO)
 	e.HideBanner = true
+
+	logLv := log.INFO
+	if os.Getenv("DEBUG") == "true" {
+		logLv = log.DEBUG
+		e.Use(middleware.Logger())
+	}
+	e.Logger.SetLevel(logLv)
 
 	e.File("/", "public/index.html")
 
