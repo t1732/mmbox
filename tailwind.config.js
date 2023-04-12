@@ -3,5 +3,6 @@ module.exports = {
   theme: {
     extend: {},
   },
+  Darkmode: "class",
   plugins: [],
 };
