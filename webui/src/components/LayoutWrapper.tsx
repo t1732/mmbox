@@ -1,11 +1,14 @@
 import { ReactNode } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { Container } from './Container';
 
 export const LayoutWrapper = ({ children }: { children: ReactNode }) => (
-  <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
+  <div className="mx-auto">
     <Header />
-    <main className="m-auto">{children}</main>
+    <Container>
+      <main className="mt-6">{children}</main>
+    </Container>
     <Footer />
   </div>
 );
