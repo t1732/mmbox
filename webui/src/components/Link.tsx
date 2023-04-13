@@ -1,5 +1,10 @@
-type Props = Pick<JSX.IntrinsicElements['a'], 'href' | 'className' | 'children'>
+import { ComponentProps } from 'react';
 
-export const Link = ({ href, className, children }: Props) => (
-  <a href={href} className={className}>{children}</a>
-);
+type Props = ComponentProps<'a'>;
+
+export const Link = (props: Props) => {
+  const { children } = props;
+
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <a {...props}>{children}</a>;
+};
