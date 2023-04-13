@@ -1,7 +1,9 @@
 package server
 
 import (
+	"net/http"
 	"os"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -14,6 +16,10 @@ import (
 func HttpNewServer(db *gorm.DB) *echo.Echo {
 	e := echo.New()
 	e.HideBanner = true
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: getAllowOrigins(),
+		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodDelete},
+	}))
 
 	logLv := log.INFO
 	if os.Getenv("DEBUG") == "true" {
@@ -32,4 +38,16 @@ func HttpNewServer(db *gorm.DB) *echo.Echo {
 	e.GET("/mails", mailCtl.Index)
 
 	return e
+}
+
+func getAllowOrigins() (allowOrigins []string) {
+	allowOrigins = []string{}
+	origins := strings.Split(os.Getenv("ALLOW_ORIGINS"), ",")
+	for _, v := range origins {
+		if v != "" {
+			allowOrigins = append(allowOrigins, v)
+		}
+	}
+
+	return
 }

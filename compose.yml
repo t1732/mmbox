@@ -6,6 +6,7 @@ services:
       target: dev-backend
     environment:
       GOFLAGS: "-buildvcs=false"
+      ALLOW_ORIGINS: "http://localhost:8825"
       MMBOX_DB_FILE_PATH: /data/mmbox.db
       DEBUG: "true"
     ports:
