@@ -27,6 +27,7 @@ func (h *mailController) Index(c echo.Context) error {
 	h.db.
 		Select("id", "created_at", "source").
 		Scopes(model.MatchWord(c.QueryParam("word")), model.CreatedAt(c.QueryParam("date"))).
+		Order("id desc").
 		Find(&mails)
 
 	res := make([]response.Mail, len(mails))
