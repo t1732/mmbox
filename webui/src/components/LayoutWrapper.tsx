@@ -7,7 +7,7 @@ export const LayoutWrapper = ({ children }: { children: ReactNode }) => (
   <div className="mx-auto">
     <Header />
     <Container>
-      <main className="mt-6">{children}</main>
+      <main className="mb-24 mt-6">{children}</main>
     </Container>
     <Footer />
   </div>
