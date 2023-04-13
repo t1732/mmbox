@@ -1,5 +1,11 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["webui/src/**/*.js", "webui/src/**/*.jsx", "webui/src/**/*.ts", "webui/src/**/*.tsx"],
+  "include": [
+    "webui/src/**/*.js",
+    "webui/src/**/*.jsx",
+    "webui/src/**/*.ts",
+    "webui/src/**/*.tsx",
+    "vite.config.ts"
+  ],
   "exclude": ["node_modules"]
 }

@@ -21,7 +21,7 @@ module.exports = {
       jsx: true,
     },
     ecmaVersion: 'latest',
-    project: './tsconfig.eslint.json',
+    project: ['tsconfig.eslint.json', 'vite.config.ts'],
     sourceType: 'module',
     tsconfigRootDir: __dirname,
   },
@@ -79,6 +79,8 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'import/prefer-default-export': ['off', { target: 'any' }],
+    'import/no-unresolved': 'error',
     'react/jsx-filename-extension': [
       'error',
       {
@@ -109,7 +111,6 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
-    'import/prefer-default-export': ['off', { target: 'any' }],
   },
   overrides: [
     {
@@ -121,8 +122,8 @@ module.exports = {
   ],
   settings: {
     'import/resolver': {
-      node: {
-        paths: ['src'],
+      typescript: {
+        project: './',
       },
     },
   },
