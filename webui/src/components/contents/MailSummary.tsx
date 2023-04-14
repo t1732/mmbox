@@ -33,7 +33,7 @@ export const MailSummary = ({
 
   return (
     <div
-      className="flex flex-col bg-white p-3 transition duration-300 ease-in-out hover:bg-slate-200"
+      className="flex flex-col bg-white p-3 transition duration-300 ease-in-out hover:bg-slate-200 shadow-md rounded-md"
       onClick={onClick}
       role="button"
       tabIndex={0}

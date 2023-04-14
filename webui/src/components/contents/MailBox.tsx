@@ -33,7 +33,7 @@ export const MailBox = ({ searchWord }: Props) => {
       {data === undefined || data.length === 0 ? (
         <div>no data</div>
       ) : (
-        <div className="grid grid-cols-1 divide-y divide-slate-500 rounded border border-slate-500">
+        <div className="grid grid-cols-1 gap-1">
           {data.map((mail) => (
             <MailRow key={mail.messageId} {...mail} />
           ))}

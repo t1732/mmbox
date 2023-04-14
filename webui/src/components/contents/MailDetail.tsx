@@ -38,7 +38,7 @@ export const MailDetail = ({
   text,
   onClick,
 }: Props) => (
-  <div className="p-3" onClick={onClick} role="button" tabIndex={0} aria-hidden>
+  <div className="p-3 rounded-md shadow-md" onClick={onClick} role="button" tabIndex={0} aria-hidden>
     <ul>
       <li>MessageId:{messageId}</li>
       <li>Subject:{subject}</li>
