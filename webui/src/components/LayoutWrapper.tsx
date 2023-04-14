@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import { Header } from './Header';
-import { Footer } from './Footer';
-import { Container } from './Container';
+import { Header } from './layouts/Header';
+import { Footer } from './layouts/Footer';
+import { Container } from './layouts/Container';
 
 export const LayoutWrapper = ({ children }: { children: ReactNode }) => (
   <div className="mx-auto">

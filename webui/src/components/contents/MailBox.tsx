@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useQuery } from '@tanstack/react-query';
-import { Props as RowProps, MailRow } from './MailRow';
+import { Props as RowProps, MailRow } from './MailBoxRow';
 
 type Props = {
   searchWord: string;
@@ -14,7 +14,7 @@ const fetchData = async (searchWord: string) => {
   return res.json();
 };
 
-export const MailList = ({ searchWord }: Props) => {
+export const MailBox = ({ searchWord }: Props) => {
   const { data, isError, isLoading } = useQuery<RowProps[], Error>({
     queryKey: ['mails', searchWord],
     queryFn: async () => fetchData(searchWord),

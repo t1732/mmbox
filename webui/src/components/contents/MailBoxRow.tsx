@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { SmallContent } from './SmallContent';
-import { FullContent } from './FullContent';
-import { Mail } from './props';
-import './mailrow.css';
+import { MailSummary } from './MailSummary';
+import { Mail, MailDetail } from './MailDetail';
+import './MailBoxRow.css';
 
 export type Props = Mail;
 
@@ -24,7 +23,7 @@ export const MailRow = ({
   return (
     <div>
       {openState ? (
-        <FullContent
+        <MailDetail
           messageId={messageId}
           subject={subject}
           createdAt={createdAt}
@@ -38,7 +37,7 @@ export const MailRow = ({
           onClick={toggleOpen}
         />
       ) : (
-        <SmallContent
+        <MailSummary
           subject={subject}
           createdAt={createdAt}
           fromAddresses={fromAddresses}

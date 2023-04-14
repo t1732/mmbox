@@ -1,6 +1,6 @@
-import { Container } from '../Container';
-import { Link } from '../Link';
-import './footer.css';
+import { Container } from './Container';
+import { Link } from '../parts/Link';
+import './Footer.css';
 
 export const Footer = () => (
   <footer className="bottom-0 left-0 right-0 bg-white">

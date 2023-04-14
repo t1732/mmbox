@@ -2,7 +2,7 @@ import { ClockIcon } from '@heroicons/react/24/outline';
 import dayjs, { extend } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useMemo } from 'react';
-import { Mail } from './props';
+import { Mail } from './MailDetail';
 import { Merge } from '../../tools';
 
 extend(relativeTime);
@@ -14,7 +14,7 @@ type Props = Merge<
   }
 >;
 
-export const SmallContent = ({
+export const MailSummary = ({
   subject,
   createdAt,
   fromAddresses,

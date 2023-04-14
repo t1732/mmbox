@@ -1,7 +1,7 @@
 import { ComponentProps, useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { useDelayedEffect } from '../hooks';
-import { Merge } from '../tools';
+import { useDelayedEffect } from '../../hooks';
+import { Merge } from '../../tools';
 
 type Props = Merge<
   ComponentProps<'input'>,

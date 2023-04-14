@@ -1,5 +1,22 @@
-import { Mail } from './props';
 import { Merge } from '../../tools';
+
+type MailAddress = {
+  address: string;
+  name: string;
+};
+
+export type Mail = {
+  messageId: string;
+  subject: string;
+  createdAt: string;
+  fromAddresses: MailAddress[] | null;
+  toAddresses: MailAddress[] | null;
+  bccAddresses: MailAddress[] | null;
+  ccAddresses: MailAddress[] | null;
+  contentType: string;
+  html: string;
+  text: string;
+};
 
 type Props = Merge<
   Mail,
@@ -8,7 +25,7 @@ type Props = Merge<
   }
 >;
 
-export const FullContent = ({
+export const MailDetail = ({
   messageId,
   subject,
   createdAt,
