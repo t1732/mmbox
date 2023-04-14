@@ -2,27 +2,43 @@
 import { useQuery } from '@tanstack/react-query';
 import { Props as RowProps, MailRow } from './MailRow';
 
-const fetchData = async () => {
-  const res = await fetch('http://localhost:8025/mails');
+type Props = {
+  searchWord: string;
+};
+
+const fetchData = async (searchWord: string) => {
+  const res = await fetch(
+    `http://localhost:8025/mails?word=${searchWord || ''}`,
+  );
 
   return res.json();
 };
 
-export const MailList = () => {
-  const { data, isSuccess } = useQuery<RowProps[], Error>({
-    queryKey: ['mails'],
-    queryFn: fetchData,
+export const MailList = ({ searchWord }: Props) => {
+  const { data, isError, isLoading } = useQuery<RowProps[], Error>({
+    queryKey: ['mails', searchWord],
+    queryFn: async () => fetchData(searchWord),
   });
 
-  if (!isSuccess) {
-    return <div>no data</div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>error.</div>;
   }
 
   return (
-    <div className="grid grid-cols-1 divide-y divide-slate-500 rounded border border-slate-500">
-      {data?.map((mail) => (
-        <MailRow key={mail.messageId} {...mail} />
-      ))}
+    <div>
+      {data === undefined || data.length === 0 ? (
+        <div>no data</div>
+      ) : (
+        <div className="grid grid-cols-1 divide-y divide-slate-500 rounded border border-slate-500">
+          {data.map((mail) => (
+            <MailRow key={mail.messageId} {...mail} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
