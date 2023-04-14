@@ -1,6 +1,9 @@
 import { ClockIcon } from '@heroicons/react/24/outline';
+import dayjs, { extend } from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { Mail } from './props';
 import { Merge } from '../../tools';
+extend(relativeTime);
 
 type Props = Merge<
   Pick<Mail, 'subject' | 'createdAt' | 'fromAddresses'>,
@@ -30,9 +33,6 @@ export const SmallContent = ({
       tabIndex={0}
       aria-hidden
     >
-      <h5 className="text-ml mb-2 truncate font-medium leading-tight">
-        {subject}
-      </h5>
       <div>
         <p className="float-left text-xs text-gray-500">
           {fromAddresses?.map(({ address, name }) =>
@@ -41,9 +41,10 @@ export const SmallContent = ({
         </p>
         <p className="float-right text-xs text-gray-500">
           <ClockIcon className="fh-4 float-left w-4" />
-          {createdAt}
+          {dayjs(createdAt).fromNow()}
         </p>
       </div>
+      <h5 className="text-ml truncate font-medium leading-tight">{subject}</h5>
     </div>
   );
 };
