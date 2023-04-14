@@ -1,8 +1,10 @@
 import { ClockIcon } from '@heroicons/react/24/outline';
 import dayjs, { extend } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useMemo } from 'react';
 import { Mail } from './props';
 import { Merge } from '../../tools';
+
 extend(relativeTime);
 
 type Props = Merge<
@@ -18,11 +20,15 @@ export const SmallContent = ({
   fromAddresses,
   onClick,
 }: Props) => {
-  const concatAddress = (address: string, name: string) => (
-    <span>
-      {address}
-      {name && `<${name}>`}
-    </span>
+  const concatAddress = (address: string, name: string) =>
+    `${address}${name && `<${name}>`}`;
+
+  const joinedFromAddresses = useMemo<string | undefined>(
+    () =>
+      fromAddresses
+        ?.map(({ address, name }) => concatAddress(address, name))
+        .join(','),
+    [fromAddresses],
   );
 
   return (
@@ -35,9 +41,7 @@ export const SmallContent = ({
     >
       <div>
         <p className="float-left text-xs text-gray-500">
-          {fromAddresses?.map(({ address, name }) =>
-            concatAddress(address, name),
-          )}
+          {joinedFromAddresses}
         </p>
         <p className="float-right text-xs text-gray-500">
           <ClockIcon className="fh-4 float-left w-4" />
