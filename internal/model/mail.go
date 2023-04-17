@@ -1,7 +1,10 @@
 package model
 
 import (
+	"bytes"
+	"encoding/base64"
 	"fmt"
+	"mime/quotedprintable"
 	"net/mail"
 	"strings"
 	"time"
@@ -70,6 +73,22 @@ func MatchWord(w string) func(db *gorm.DB) *gorm.DB {
 			return db
 		}
 
-		return db.Where("search_text LIKE ?", fmt.Sprintf("%%%s%%", sw))
+		bsw := base64.StdEncoding.EncodeToString([]byte(sw))
+		qsw := toQuotedPrintable(sw)
+		return db.Where("source LIKE ? OR source LIKE ?", fmt.Sprintf("%%%s%%", bsw), fmt.Sprintf("%%%s%%", qsw))
 	}
+}
+
+func toQuotedPrintable(s string) string {
+	var ac bytes.Buffer
+	w := quotedprintable.NewWriter(&ac)
+	_, err := w.Write([]byte(s))
+	if err != nil {
+		return ""
+	}
+	err = w.Close()
+	if err != nil {
+		return ""
+	}
+	return ac.String()
 }
