@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -22,7 +23,20 @@ func NewFlushController(db *gorm.DB) flushImpl {
 }
 
 func (h *flushController) Destroy(c echo.Context) error {
-  h.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Mail{})
+	if c.QueryParam("word") == "" && c.QueryParam("date") == "" {
+		fmt.Println("param word:" + c.QueryParam("word"))
+		h.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Mail{})
+	} else {
+		fmt.Println("param word:" + c.QueryParam("word"))
+		query := h.db
+		if c.QueryParam("word") != "" {
+			query = query.Scopes(model.MatchWord(c.QueryParam("word")))
+		}
+		if c.QueryParam("date") != "" {
+			query = query.Scopes(model.CreatedAt(c.QueryParam("date")))
+		}
+		query.Delete(&model.Mail{})
+	}
 
 	return c.JSON(http.StatusOK, "success")
 }
