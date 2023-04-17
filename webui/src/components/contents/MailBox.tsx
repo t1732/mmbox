@@ -21,17 +21,27 @@ export const MailBox = ({ searchWord }: Props) => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>error.</div>;
+    return (
+      <div className="flex h-80 justify-center">
+        <div>error</div>
+      </div>
+    );
   }
 
   return (
     <div>
       {data === undefined || data.length === 0 ? (
-        <div>no data</div>
+        <div className="flex h-80 justify-center">
+          <div>empty</div>
+        </div>
       ) : (
         <div className="grid grid-cols-1 gap-1">
           {data.map((mail) => (
