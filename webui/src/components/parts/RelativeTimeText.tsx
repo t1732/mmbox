@@ -20,6 +20,7 @@ export const RelativeTimeText = ({ time }: Props) => (
         display: 'inline-flex',
         alignItems: 'center',
         float: 'right',
+        minWidth: '150px',
       }}
     >
       <TimeIcon />
