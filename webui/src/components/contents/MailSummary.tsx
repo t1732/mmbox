@@ -1,11 +1,12 @@
-import { useMemo } from 'react';
+import { useMemo, useState, ReactNode } from 'react';
 import {
   Avatar,
-  ListItem,
+  Collapse,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
 } from '@mui/material';
+import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { Mail } from './MailDetail';
 import { RelativeTimeText } from '../parts';
 import { Merge } from '../../tools';
@@ -14,18 +15,24 @@ import './MailSummary.css';
 type Props = Merge<
   Pick<Mail, 'subject' | 'createdAt' | 'fromAddresses'>,
   {
-    onClick: () => void;
+    children: ReactNode;
   }
 >;
+
+const concatAddress = (address: string, name: string) =>
+  `${address}${name && `<${name}>`}`;
 
 export const MailSummary = ({
   subject,
   createdAt,
   fromAddresses,
-  onClick,
+  children,
 }: Props) => {
-  const concatAddress = (address: string, name: string) =>
-    `${address}${name && `<${name}>`}`;
+  const [open, setOpen] = useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   const joinedFromAddresses = useMemo<string | undefined>(
     () =>
@@ -48,14 +55,8 @@ export const MailSummary = ({
   }, [fromAddresses]);
 
   return (
-    <ListItem
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      aria-hidden
-      disablePadding
-    >
-      <ListItemButton>
+    <>
+      <ListItemButton onClick={handleClick}>
         <ListItemAvatar>
           <Avatar>{avatarStr}</Avatar>
         </ListItemAvatar>
@@ -68,7 +69,11 @@ export const MailSummary = ({
             </>
           }
         />
+        {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-    </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        {children}
+      </Collapse>
+    </>
   );
 };
