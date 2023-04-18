@@ -47,12 +47,12 @@ export const MailBox = ({ searchWord }: Props) => {
 
   return (
     <Card>
-      <List sx={{ width: '100%' }}>
+      <List sx={{ width: '100%' }} component="div">
         {data.map((mail, i) => (
-          <>
-            <MailRow key={mail.messageId} {...mail} />
-            {i + 1 < data.length && <Divider variant="inset" component="li" />}
-          </>
+          <div key={mail.messageId}>
+            <MailRow {...mail} />
+            {i + 1 < data.length && <Divider variant="inset" component="div" />}
+          </div>
         ))}
       </List>
     </Card>
