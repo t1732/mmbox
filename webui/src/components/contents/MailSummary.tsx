@@ -1,4 +1,3 @@
-import { ClockIcon } from '@heroicons/react/24/outline';
 import dayjs, { extend } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useMemo } from 'react';
@@ -44,7 +43,6 @@ export const MailSummary = ({
           {joinedFromAddresses}
         </p>
         <p className="float-right text-xs text-gray-500">
-          <ClockIcon className="fh-4 float-left w-4" />
           {dayjs(createdAt).fromNow()}
         </p>
       </div>
