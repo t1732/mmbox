@@ -1,4 +1,6 @@
+import { Box } from '@mui/material';
 import { Merge } from '../../tools';
+import './MailDetail.css';
 
 type MailAddress = {
   address: string;
@@ -38,7 +40,7 @@ export const MailDetail = ({
   text,
   onClick,
 }: Props) => (
-  <div className="p-3 rounded-md shadow-md" onClick={onClick} role="button" tabIndex={0} aria-hidden>
+  <Box onClick={onClick} role="button" tabIndex={0} aria-hidden sx={{ my: 3 }}>
     <ul>
       <li>MessageId:{messageId}</li>
       <li>Subject:{subject}</li>
@@ -80,10 +82,10 @@ export const MailDetail = ({
           </div>
         ))}
       </li>
-      <li className="mail-content">{text}</li>
+      <li className="body">{text}</li>
       <li>
         <div>{html}</div>
       </li>
     </ul>
-  </div>
+  </Box>
 );

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { MailSummary } from './MailSummary';
 import { Mail, MailDetail } from './MailDetail';
-import './MailBoxRow.css';
 
 export type Props = Mail;
 
@@ -20,30 +19,30 @@ export const MailRow = ({
   const [openState, setOpenState] = useState(false);
   const toggleOpen = () => setOpenState(!openState);
 
+  if (openState) {
+    return (
+      <MailDetail
+        messageId={messageId}
+        subject={subject}
+        createdAt={createdAt}
+        fromAddresses={fromAddresses}
+        toAddresses={toAddresses}
+        ccAddresses={ccAddresses}
+        bccAddresses={bccAddresses}
+        contentType={contentType}
+        html={html}
+        text={text}
+        onClick={toggleOpen}
+      />
+    );
+  }
+
   return (
-    <div>
-      {openState ? (
-        <MailDetail
-          messageId={messageId}
-          subject={subject}
-          createdAt={createdAt}
-          fromAddresses={fromAddresses}
-          toAddresses={toAddresses}
-          ccAddresses={ccAddresses}
-          bccAddresses={bccAddresses}
-          contentType={contentType}
-          html={html}
-          text={text}
-          onClick={toggleOpen}
-        />
-      ) : (
-        <MailSummary
-          subject={subject}
-          createdAt={createdAt}
-          fromAddresses={fromAddresses}
-          onClick={toggleOpen}
-        />
-      )}
-    </div>
+    <MailSummary
+      subject={subject}
+      createdAt={createdAt}
+      fromAddresses={fromAddresses}
+      onClick={toggleOpen}
+    />
   );
 };

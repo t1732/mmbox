@@ -1,10 +1,15 @@
-import dayjs, { extend } from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { useMemo } from 'react';
+import {
+  Avatar,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from '@mui/material';
 import { Mail } from './MailDetail';
+import { RelativeTimeText } from '../parts';
 import { Merge } from '../../tools';
-
-extend(relativeTime);
+import './MailSummary.css';
 
 type Props = Merge<
   Pick<Mail, 'subject' | 'createdAt' | 'fromAddresses'>,
@@ -30,23 +35,40 @@ export const MailSummary = ({
     [fromAddresses],
   );
 
+  const avatarStr = useMemo<string>(() => {
+    if (fromAddresses === null) {
+      return '-';
+    }
+
+    if (fromAddresses[0].name) {
+      return fromAddresses[0].name.charAt(0);
+    }
+
+    return fromAddresses[0].address.charAt(0);
+  }, [fromAddresses]);
+
   return (
-    <div
-      className="flex flex-col bg-white p-3 transition duration-300 ease-in-out hover:bg-slate-200 shadow-md rounded-md"
+    <ListItem
       onClick={onClick}
       role="button"
       tabIndex={0}
       aria-hidden
+      disablePadding
     >
-      <div>
-        <p className="float-left text-xs text-gray-500">
-          {joinedFromAddresses}
-        </p>
-        <p className="float-right text-xs text-gray-500">
-          {dayjs(createdAt).fromNow()}
-        </p>
-      </div>
-      <h5 className="text-ml truncate font-medium leading-tight">{subject}</h5>
-    </div>
+      <ListItemButton>
+        <ListItemAvatar>
+          <Avatar>{avatarStr}</Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={<span className="title">{subject}</span>}
+          secondary={
+            <>
+              {joinedFromAddresses}
+              <RelativeTimeText time={createdAt} />
+            </>
+          }
+        />
+      </ListItemButton>
+    </ListItem>
   );
 };

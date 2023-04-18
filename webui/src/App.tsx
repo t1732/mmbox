@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { LayoutWrapper } from './components/LayoutWrapper';
 import { MailBox } from './components/contents/MailBox';
-import { SearchInput } from './components/parts/SearchInput';
+import { SearchBox } from './components/layouts/SearchBox';
 
 const queryClient = new QueryClient();
 
@@ -16,7 +16,7 @@ const App = () => {
   return (
     <LayoutWrapper>
       <QueryClientProvider client={queryClient}>
-        <SearchInput onChange={handleSearchInputOnChange} />
+        <SearchBox onChange={handleSearchInputOnChange} />
         <MailBox searchWord={searchWord} />
       </QueryClientProvider>
     </LayoutWrapper>

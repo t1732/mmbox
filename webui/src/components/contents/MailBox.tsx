@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useQuery } from '@tanstack/react-query';
+import { Card, Divider, List } from '@mui/material';
 import { Props as RowProps, MailRow } from './MailBoxRow';
 
 type Props = {
@@ -36,19 +37,24 @@ export const MailBox = ({ searchWord }: Props) => {
     );
   }
 
+  if (data === undefined || data.length === 0) {
+    return (
+      <div className="flex h-80 justify-center">
+        <div>empty</div>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      {data === undefined || data.length === 0 ? (
-        <div className="flex h-80 justify-center">
-          <div>empty</div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-1">
-          {data.map((mail) => (
+    <Card>
+      <List sx={{ width: '100%' }}>
+        {data.map((mail, i) => (
+          <>
             <MailRow key={mail.messageId} {...mail} />
-          ))}
-        </div>
-      )}
-    </div>
+            {i + 1 < data.length && <Divider variant="inset" component="li" />}
+          </>
+        ))}
+      </List>
+    </Card>
   );
 };
