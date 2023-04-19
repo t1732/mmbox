@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useQuery } from '@tanstack/react-query';
-import { Card, Divider, List } from '@mui/material';
+import { Card, Divider, List, Stack, Alert, AlertTitle } from '@mui/material';
 import { Props as RowProps, MailRow } from './MailBoxRow';
 import { MailBoxRowSkeleton } from './MailBoxRowSkeleton';
 
@@ -32,17 +32,23 @@ export const MailBox = ({ searchWord }: Props) => {
 
   if (isError) {
     return (
-      <div className="flex h-80 justify-center">
-        <div>error</div>
-      </div>
+      <Stack sx={{ width: '100%', marginTop: '10px' }} spacing={2}>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Failed to retrieve data.
+        </Alert>
+      </Stack>
     );
   }
 
   if (data === undefined || data.length === 0) {
     return (
-      <div className="flex h-80 justify-center">
-        <div>empty</div>
-      </div>
+      <Stack sx={{ width: '100%', marginTop: '10px' }} spacing={2}>
+        <Alert severity="info">
+          <AlertTitle>Info</AlertTitle>
+          There is no data.
+        </Alert>
+      </Stack>
     );
   }
 
