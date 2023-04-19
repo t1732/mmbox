@@ -5,6 +5,7 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Typography,
 } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { Mail } from './MailDetail';
@@ -61,12 +62,15 @@ export const MailSummary = ({
           <Avatar>{avatarStr}</Avatar>
         </ListItemAvatar>
         <ListItemText
+          disableTypography
           primary={<span className="title">{subject}</span>}
           secondary={
-            <>
-              {joinedFromAddresses}
+            <div>
+              <Typography variant="body2" component="span">
+                {joinedFromAddresses}
+              </Typography>
               <RelativeTimeText time={createdAt} />
-            </>
+            </div>
           }
         />
         {open ? <ExpandLess /> : <ExpandMore />}

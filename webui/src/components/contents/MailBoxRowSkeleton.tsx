@@ -29,7 +29,8 @@ export const MailBoxRowSkeleton = ({ count }: { count: number }) => {
   return (
     <div>
       {nodes.map((n, i) => (
-        <div>
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={`item-${i}`}>
           {n}
           {i + 1 < nodes.length && <Divider variant="inset" component="div" />}
         </div>

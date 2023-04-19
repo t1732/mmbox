@@ -13,6 +13,7 @@ export const RelativeTimeText = ({ time }: Props) => (
   <Tooltip title={dayjs(time).format('YYYY/MM/DD hh:mm')}>
     <Typography
       variant="body2"
+      component="span"
       display="block"
       align="right"
       gutterBottom

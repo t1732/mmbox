@@ -5,7 +5,6 @@ import {
   Paper,
   Tab,
   Tabs,
-  Typography,
   TableContainer,
   Table,
   TableHead,
@@ -52,11 +51,7 @@ const TabPanel = (props: TabPanelProps) => {
       aria-labelledby={`tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };
