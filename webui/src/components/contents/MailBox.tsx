@@ -53,8 +53,8 @@ export const MailBox = ({ searchWord }: Props) => {
   }
 
   return (
-    <Card>
-      <List sx={{ width: '100%' }} component="div">
+    <Card variant="outlined">
+      <List sx={{ width: '100%', padding: 0 }} component="div">
         {data.map((mail, i) => (
           <div key={mail.messageId}>
             <MailRow {...mail} />

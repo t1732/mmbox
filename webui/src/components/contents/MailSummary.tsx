@@ -56,7 +56,7 @@ export const MailSummary = ({
 
   return (
     <>
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton onClick={handleClick} dense>
         <ListItemAvatar>
           <Avatar>{avatarStr}</Avatar>
         </ListItemAvatar>

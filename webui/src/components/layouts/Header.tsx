@@ -1,7 +1,7 @@
 import { AppBar, Container, Typography, Toolbar } from '@mui/material';
 
 export const Header = () => (
-  <AppBar>
+  <AppBar color="primary" variant="outlined">
     <Container maxWidth="xl">
       <Toolbar disableGutters>
         <Typography
