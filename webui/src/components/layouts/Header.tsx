@@ -9,16 +9,17 @@ import {
   Typography,
   Toolbar,
 } from '@mui/material';
-import { searchWordState } from '../../atom';
+import { searchParamsState } from '../../atom';
 import { SearchDialog } from '../contents/SearchDialog';
 import { SearchIcon } from '../parts/icon';
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
-  const [searchWord, setSearchWord] = useAtom(searchWordState);
+  const [{ word: searchWord, date: searchDate }, setSearchParams] =
+    useAtom(searchParamsState);
 
-  const handleSearch = (word: string) => {
-    setSearchWord(word);
+  const handleSearch = (word: string, date: string) => {
+    setSearchParams({ word, date });
     setOpen(false);
   };
 
@@ -63,7 +64,8 @@ export const Header = () => {
       </Container>
       <SearchDialog
         open={open}
-        defaultValue={searchWord}
+        defaultWord={searchWord}
+        defaultDate={searchDate}
         handleCancel={() => setOpen(false)}
         handleSearch={handleSearch}
       />

@@ -1,3 +1,3 @@
-import { searchWordState } from './searchWordState';
+import { searchParamsState } from './searchParamsState';
 
-export { searchWordState };
+export { searchParamsState };

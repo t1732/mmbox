@@ -2,23 +2,24 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import { Card, Divider, List, Stack, Alert, AlertTitle } from '@mui/material';
-import { searchWordState } from '../../atom';
+import { searchParamsState } from '../../atom';
 import { Props as RowProps, MailRow } from './MailBoxRow';
 import { MailBoxRowSkeleton } from './MailBoxRowSkeleton';
 
-const fetchData = async (searchWord: string) => {
+const fetchData = async (word: string, date: string) => {
   const res = await fetch(
-    `http://localhost:8025/mails?word=${searchWord || ''}`,
+    `http://localhost:8025/mails?word=${word ?? ''}&date=${date ?? ''}`,
   );
 
   return res.json();
 };
 
 export const MailBox = () => {
-  const searchWord = useAtomValue(searchWordState);
+  const { word: searchWord, date: searchDate } =
+    useAtomValue(searchParamsState);
   const { data, isError, isLoading } = useQuery<RowProps[], Error>({
-    queryKey: ['mails', searchWord],
-    queryFn: async () => fetchData(searchWord),
+    queryKey: ['mails', searchWord, searchDate],
+    queryFn: async () => fetchData(searchWord, searchDate),
   });
 
   if (isLoading) {
