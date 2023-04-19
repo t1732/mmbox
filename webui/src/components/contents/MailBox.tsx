@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Card, Divider, List } from '@mui/material';
 import { Props as RowProps, MailRow } from './MailBoxRow';
+import { MailBoxRowSkeleton } from './MailBoxRowSkeleton';
 
 type Props = {
   searchWord: string;
@@ -23,9 +24,9 @@ export const MailBox = ({ searchWord }: Props) => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center">
-        <div>Loading...</div>
-      </div>
+      <Card>
+        <MailBoxRowSkeleton count={3} />
+      </Card>
     );
   }
 
