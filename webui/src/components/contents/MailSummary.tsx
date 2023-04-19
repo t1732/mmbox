@@ -63,10 +63,14 @@ export const MailSummary = ({
         </ListItemAvatar>
         <ListItemText
           disableTypography
-          primary={<span className="title">{subject}</span>}
+          primary={
+            <Typography variant="subtitle1" noWrap>
+              {subject}
+            </Typography>
+          }
           secondary={
             <div>
-              <Typography variant="body2" component="span">
+              <Typography variant="caption" component="span">
                 {joinedFromAddresses}
               </Typography>
               <RelativeTimeText time={createdAt} />
