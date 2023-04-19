@@ -1,12 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useQuery } from '@tanstack/react-query';
+import { useAtomValue } from 'jotai';
 import { Card, Divider, List, Stack, Alert, AlertTitle } from '@mui/material';
+import { searchWordState } from '../../atom';
 import { Props as RowProps, MailRow } from './MailBoxRow';
 import { MailBoxRowSkeleton } from './MailBoxRowSkeleton';
-
-type Props = {
-  searchWord: string;
-};
 
 const fetchData = async (searchWord: string) => {
   const res = await fetch(
@@ -16,7 +14,8 @@ const fetchData = async (searchWord: string) => {
   return res.json();
 };
 
-export const MailBox = ({ searchWord }: Props) => {
+export const MailBox = () => {
+  const searchWord = useAtomValue(searchWordState);
   const { data, isError, isLoading } = useQuery<RowProps[], Error>({
     queryKey: ['mails', searchWord],
     queryFn: async () => fetchData(searchWord),

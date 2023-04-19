@@ -1,3 +1,4 @@
+import { SearchIcon } from './SearchIcon';
 import { TimeIcon } from './TimeIcon';
 
-export { TimeIcon };
+export { SearchIcon, TimeIcon };
