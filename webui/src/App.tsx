@@ -2,7 +2,6 @@ import { createContext, useMemo, useState } from 'react';
 import { CssBaseline, PaletteMode } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { focusManager } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { themeModeState } from './atom';
 import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
@@ -51,11 +50,7 @@ const App = () => {
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   const [openConfirm, setOpenConfirm] = useState(false);
-  const deleteMutation = useDeleteMailsMutation({
-    onSuccess: () => {
-      focusManager.setFocused(true);
-    },
-  });
+  const deleteMutation = useDeleteMailsMutation();
   const handleDelete = () => {
     setOpenConfirm(true);
   };
