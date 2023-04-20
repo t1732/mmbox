@@ -1,12 +1,14 @@
-import { createContext, useMemo } from 'react';
+import { createContext, useMemo, useState } from 'react';
 import { CssBaseline, PaletteMode } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { focusManager } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { themeModeState } from './atom';
 import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
 import { LayoutWrapper } from './components/LayoutWrapper';
 import { MailBox } from './components/contents/MailBox';
+import { ConfirmDialog } from './components/contents/ConfirmDialog';
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -48,7 +50,19 @@ const App = () => {
   );
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
-  const deleteMutation = useDeleteMailsMutation();
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const deleteMutation = useDeleteMailsMutation({
+    onSuccess: () => {
+      focusManager.setFocused(true);
+    },
+  });
+  const handleDelete = () => {
+    setOpenConfirm(true);
+  };
+  const handleApply = () => {
+    deleteMutation.mutate();
+    setOpenConfirm(false);
+  };
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -56,10 +70,19 @@ const App = () => {
         <CssBaseline />
         <LayoutWrapper
           loading={deleteMutation.isLoading}
-          handleDelete={() => deleteMutation.mutate()}
+          handleDelete={handleDelete}
         >
           <MailBox />
         </LayoutWrapper>
+        <ConfirmDialog
+          open={openConfirm}
+          title="Confirmation"
+          message="Delete all emails ?"
+          handleApply={handleApply}
+          handleCancel={() => {
+            setOpenConfirm(false);
+          }}
+        />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

@@ -9,10 +9,12 @@ const deleteData = async () => {
   return data;
 };
 
-export const useDeleteMailsMutation = () =>
+export const useDeleteMailsMutation = ({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}) =>
   useMutation({
     mutationFn: deleteData,
-    onSuccess: () => {
-      focusManager.setFocused(true);
-    },
+    onSuccess,
   });
