@@ -1,14 +1,13 @@
 import { createContext, useMemo } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { CssBaseline, PaletteMode } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useAtom } from 'jotai';
 import { themeModeState } from './atom';
+import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
 import { LayoutWrapper } from './components/LayoutWrapper';
 import { MailBox } from './components/contents/MailBox';
 
-const queryClient = new QueryClient();
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -49,14 +48,17 @@ const App = () => {
   );
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
+  const deleteMutation = useDeleteMailsMutation();
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <LayoutWrapper>
-          <QueryClientProvider client={queryClient}>
-            <MailBox />
-          </QueryClientProvider>
+        <LayoutWrapper
+          loading={deleteMutation.isLoading}
+          handleDelete={() => deleteMutation.mutate()}
+        >
+          <MailBox />
         </LayoutWrapper>
       </ThemeProvider>
     </ColorModeContext.Provider>

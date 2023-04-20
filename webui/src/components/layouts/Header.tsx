@@ -5,15 +5,20 @@ import {
   Badge,
   Box,
   Container,
-  IconButton,
   Typography,
   Toolbar,
 } from '@mui/material';
 import { searchParamsState, themeModeState } from '../../atom';
 import { SearchDialog } from '../contents/SearchDialog';
-import { SearchIcon, ThemeModeIcon } from '../parts/icon';
+import { IconButton } from '../parts/IconButton';
+import { DeleteIcon, SearchIcon, ThemeModeIcon } from '../parts/icon';
 
-export const Header = () => {
+type Props = {
+  loading: boolean;
+  handleDelete: () => void;
+};
+
+export const Header = ({ loading, handleDelete }: Props) => {
   const [open, setOpen] = useState(false);
   const [{ word: searchWord, date: searchDate }, setSearchParams] =
     useAtom(searchParamsState);
@@ -56,6 +61,8 @@ export const Header = () => {
               aria-label="search"
               color="secondary"
               onClick={() => setOpen(true)}
+              disabled={loading}
+              loadingProps={{ size: 24, color: 'secondary' }}
             >
               <Badge
                 color="secondary"
@@ -63,6 +70,17 @@ export const Header = () => {
               >
                 <SearchIcon />
               </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="delete"
+              color="secondary"
+              onClick={handleDelete}
+              loading={loading}
+              disabled={loading}
+              loadingProps={{ size: 24, color: 'secondary' }}
+            >
+              <DeleteIcon />
             </IconButton>
             <IconButton
               size="large"

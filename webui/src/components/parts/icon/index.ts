@@ -1,4 +1,5 @@
+import { DeleteIcon } from './DeleteIcon'
 import { SearchIcon } from './SearchIcon';
 import { ThemeModeIcon } from './ThemeModeIcon';
 
-export { SearchIcon, ThemeModeIcon };
+export { DeleteIcon, SearchIcon, ThemeModeIcon };
