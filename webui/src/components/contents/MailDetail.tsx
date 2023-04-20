@@ -64,7 +64,12 @@ export const MailDetail = ({
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'primary' }}>
-        <Tabs value={tabIndex} onChange={handleChange} centered>
+        <Tabs
+          value={tabIndex}
+          onChange={handleChange}
+          centered
+          textColor="secondary"
+        >
           <Tab label="Html" {...a11yProps(0)} />
           <Tab label="Text" {...a11yProps(1)} />
           <Tab label="HEADER" {...a11yProps(2)} />

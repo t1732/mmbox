@@ -59,7 +59,7 @@ export const MailSummary = ({
     <>
       <ListItemButton onClick={handleClick} dense>
         <ListItemAvatar>
-          <Avatar>{avatarStr}</Avatar>
+          <Avatar sx={{ bgcolor: 'secondary.main' }}>{avatarStr}</Avatar>
         </ListItemAvatar>
         <ListItemText
           disableTypography
@@ -77,7 +77,11 @@ export const MailSummary = ({
             </div>
           }
         />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {open ? (
+          <ExpandLess color="secondary" />
+        ) : (
+          <ExpandMore color="secondary" />
+        )}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         {children}
