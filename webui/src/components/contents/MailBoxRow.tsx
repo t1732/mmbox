@@ -1,9 +1,10 @@
+import { Mail } from '../../api/hooks/useMailsQuery';
 import { MailSummary } from './MailSummary';
-import { Mail, MailDetail } from './MailDetail';
+import { MailDetail } from './MailDetail';
 
-export type Props = Mail;
+type Props = Mail;
 
-export const MailRow = ({
+export const MailBoxRow = ({
   messageId,
   subject,
   createdAt,

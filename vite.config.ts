@@ -13,6 +13,9 @@ export default defineConfig({
     outDir: '../dist',
   },
   envDir: '../',
+  define: {
+    MMBOX_API_BASE_URL: JSON.stringify(process.env.MMBOX_API_BASE_URL),
+  },
   plugins: [
     react(),
     tsconfigPaths({

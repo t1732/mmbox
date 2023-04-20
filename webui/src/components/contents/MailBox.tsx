@@ -1,25 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import { Card, Divider, List, Stack, Alert, AlertTitle } from '@mui/material';
 import { searchParamsState } from '../../atom';
-import { Props as RowProps, MailRow } from './MailBoxRow';
+import { useMailsQuery } from '../../api/hooks/useMailsQuery';
+import { MailBoxRow } from './MailBoxRow';
 import { MailBoxRowSkeleton } from './MailBoxRowSkeleton';
-
-const fetchData = async (word: string, date: string) => {
-  const res = await fetch(
-    `http://localhost:8025/mails?word=${word ?? ''}&date=${date ?? ''}`,
-  );
-
-  return res.json();
-};
 
 export const MailBox = () => {
   const { word: searchWord, date: searchDate } =
     useAtomValue(searchParamsState);
-  const { data, isError, isLoading } = useQuery<RowProps[], Error>({
-    queryKey: ['mails', searchWord, searchDate],
-    queryFn: async () => fetchData(searchWord, searchDate),
+  const { data, isError, isLoading } = useMailsQuery({
+    word: searchWord,
+    date: searchDate,
   });
 
   if (isLoading) {
@@ -57,7 +49,7 @@ export const MailBox = () => {
       <List sx={{ width: '100%', padding: 0 }} component="div">
         {data.map((mail, i) => (
           <div key={mail.messageId}>
-            <MailRow {...mail} />
+            <MailBoxRow {...mail} />
             {i + 1 < data.length && <Divider variant="inset" component="div" />}
           </div>
         ))}

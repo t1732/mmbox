@@ -29,6 +29,8 @@ services:
       target: dev-webui
       args:
         NPM_VERSION: "9.6.4"
+    environment:
+      MMBOX_API_BASE_URL: "http://localhost:8025"
     ports:
       - 8825:8825
     volumes:

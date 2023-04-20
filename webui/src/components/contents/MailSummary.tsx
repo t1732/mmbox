@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
-import { Mail } from './MailDetail';
+import { Mail } from '../../api/hooks/useMailsQuery';
 import { RelativeTimeText } from '../parts';
 import { Merge } from '../../tools';
 import './MailSummary.css';

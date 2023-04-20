@@ -12,28 +12,10 @@ import {
   TableCell,
   TableBody,
 } from '@mui/material';
+import { Mail } from '../../api/hooks/useMailsQuery';
 import './MailDetail.css';
 
-type MailAddress = {
-  address: string;
-  name: string;
-};
-
-export type Mail = {
-  messageId: string;
-  subject: string;
-  createdAt: string;
-  fromAddresses: MailAddress[] | null;
-  toAddresses: MailAddress[] | null;
-  bccAddresses: MailAddress[] | null;
-  ccAddresses: MailAddress[] | null;
-  contentType: string;
-  html: string;
-  text: string;
-};
-
 type Props = Mail;
-
 type TabPanelProps = {
   children: ReactNode;
   index: number;
