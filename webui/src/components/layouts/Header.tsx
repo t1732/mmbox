@@ -9,14 +9,19 @@ import {
   Typography,
   Toolbar,
 } from '@mui/material';
-import { searchParamsState } from '../../atom';
+import { searchParamsState, themeModeState } from '../../atom';
 import { SearchDialog } from '../contents/SearchDialog';
-import { SearchIcon } from '../parts/icon';
+import { SearchIcon, ThemeModeIcon } from '../parts/icon';
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
   const [{ word: searchWord, date: searchDate }, setSearchParams] =
     useAtom(searchParamsState);
+
+  const [mode, setMode] = useAtom(themeModeState);
+  const toggleThemeMode = () => {
+    setMode(mode === 'light' ? 'dark' : 'light');
+  };
 
   const handleSearch = (word: string, date: string) => {
     setSearchParams({ word, date });
@@ -58,6 +63,14 @@ export const Header = () => {
               >
                 <SearchIcon />
               </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="theme"
+              color="secondary"
+              onClick={toggleThemeMode}
+            >
+              <ThemeModeIcon outlined={mode === 'dark'} />
             </IconButton>
           </Box>
         </Toolbar>

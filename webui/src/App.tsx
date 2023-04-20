@@ -1,8 +1,10 @@
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { CssBaseline, PaletteMode, useMediaQuery } from '@mui/material';
+import { CssBaseline, PaletteMode } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useAtom } from 'jotai';
+import { themeModeState } from './atom';
 import { LayoutWrapper } from './components/LayoutWrapper';
 import { MailBox } from './components/contents/MailBox';
 
@@ -34,10 +36,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
 });
 
 const App = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const [mode, setMode] = useState<PaletteMode>(
-    prefersDarkMode ? 'dark' : 'light',
-  );
+  const [mode, setMode] = useAtom(themeModeState);
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
@@ -46,7 +45,7 @@ const App = () => {
         );
       },
     }),
-    [],
+    [setMode],
   );
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
