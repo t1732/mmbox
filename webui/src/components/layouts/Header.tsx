@@ -66,7 +66,9 @@ export const Header = ({ loading, handleDelete }: Props) => {
             >
               <Badge
                 color="secondary"
-                variant={searchWord === '' ? 'standard' : 'dot'}
+                variant={
+                  searchWord === '' && searchDate === '' ? 'standard' : 'dot'
+                }
               >
                 <SearchIcon />
               </Badge>
