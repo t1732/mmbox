@@ -5,7 +5,6 @@ import (
 	"encoding/base64"
 	"fmt"
 	"mime/quotedprintable"
-	"net/mail"
 	"strings"
 	"time"
 
@@ -14,10 +13,10 @@ import (
 )
 
 type Mail struct {
-	ID         uint
-	CreatedAt  time.Time `gorm:"not null"`
-	Date       string    `gorm:"not null;index:search"`
-	Source     string    `gorm:"not null"`
+	ID        uint
+	CreatedAt time.Time `gorm:"not null"`
+	Date      string    `gorm:"not null;index:search"`
+	Source    string    `gorm:"not null"`
 }
 
 func (m *Mail) BeforeSave(tx *gorm.DB) (err error) {
@@ -35,14 +34,6 @@ func (m *Mail) BeforeSave(tx *gorm.DB) (err error) {
 func (m *Mail) Parse() (letters.Email, error) {
 	r := strings.NewReader(m.Source)
 	return letters.ParseEmail(r)
-}
-
-func mailAddressesToString(mas []*mail.Address) (out string) {
-	for _, m := range mas {
-		out = out + strings.Join([]string{m.Address, m.Name}, " ")
-	}
-
-	return
 }
 
 func CreatedAt(s string) func(db *gorm.DB) *gorm.DB {
@@ -66,6 +57,24 @@ func MatchWord(w string) func(db *gorm.DB) *gorm.DB {
 		bsw := base64.StdEncoding.EncodeToString([]byte(sw))
 		qsw := toQuotedPrintable(sw)
 		return db.Where("source LIKE ? OR source LIKE ?", fmt.Sprintf("%%%s%%", bsw), fmt.Sprintf("%%%s%%", qsw))
+	}
+}
+
+func Paginate(page int, per int) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		if page <= 0 {
+			page = 1
+		}
+
+		switch {
+		case per > 50:
+			per = 50
+		case per <= 30:
+			per = 30
+		}
+
+		offset := (page - 1) * per
+		return db.Offset(offset).Limit(per)
 	}
 }
 

@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"math"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -23,21 +25,26 @@ func NewMialController(db *gorm.DB) mailImpl {
 }
 
 func (h *mailController) Index(c echo.Context) error {
-	mails := []model.Mail{}
-	h.db.
-		Select("id", "created_at", "source").
-		Scopes(model.MatchWord(c.QueryParam("word")), model.CreatedAt(c.QueryParam("date"))).
-		Order("id desc").
-		Find(&mails)
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	per, _ := strconv.Atoi(c.QueryParam("per"))
 
-	res := make([]response.Mail, len(mails))
+	mails := []model.Mail{}
+	q := h.db.Scopes(model.MatchWord(c.QueryParam("word")), model.CreatedAt(c.QueryParam("date")))
+
+	var total int64
+	q.Model(&mails).Count(&total)
+	if (total > 0) {
+		q.Select("id", "created_at", "source").Scopes(model.Paginate(page, per)).Find(&mails).Order("id desc")
+	}
+
+	records := make([]response.Mail, len(mails))
 	for i, e := range mails {
 		pe, err := e.Parse()
 		if err != nil {
 			return err
 		}
 
-		res[i] = response.Mail{
+		records[i] = response.Mail{
 			CreatedAt:   e.CreatedAt,
 			Subject:     pe.Headers.Subject,
 			MessageID:   string(pe.Headers.MessageID),
@@ -45,11 +52,18 @@ func (h *mailController) Index(c echo.Context) error {
 			Text:        pe.Text,
 			HTML:        pe.HTML,
 		}
-		res[i].SetFromAddresses(pe.Headers.From)
-		res[i].SetToAddresses(pe.Headers.To)
-		res[i].SetCcAddresses(pe.Headers.Cc)
-		res[i].SetBccAddresses(pe.Headers.Bcc)
+		records[i].SetFromAddresses(pe.Headers.From)
+		records[i].SetToAddresses(pe.Headers.To)
+		records[i].SetCcAddresses(pe.Headers.Cc)
+		records[i].SetBccAddresses(pe.Headers.Bcc)
 	}
 
-	return c.JSON(http.StatusOK, res)
+	return c.JSON(http.StatusOK, response.Mails{
+		Metadata: response.Metadata{
+			Page: response.Page{
+				Current: page, Per: per, Total: total, TotalPages: int(math.Ceil(float64(total) / float64(per))),
+			},
+		},
+		Records: records,
+	})
 }

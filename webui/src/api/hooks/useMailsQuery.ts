@@ -19,15 +19,20 @@ type MailAddress = {
   name: string;
 };
 
-type MailsGetResponse = Mail[];
-
-export const mailsKeys = {
-  index: (word?: string, date?: string) => ['mails', word, date] as const,
+type MailsGetResponse = {
+  _metadata: {
+    page: { current: number; per: number; total: number; totalPages: number };
+  };
+  records: Mail[];
 };
 
-const fetchData = async (word?: string, date?: string) => {
+export const mailsKeys = {
+  index: (word?: string, date?: string, page?: number) => ['mails', word, date, page] as const,
+};
+
+const fetchData = async (word?: string, date?: string, page?: number) => {
   const { data } = await axios.get<MailsGetResponse>(
-    `/mails?word=${word ?? ''}&date=${date ?? ''}`,
+    `/mails?word=${word ?? ''}&date=${date ?? ''}&page=${page ?? 1}&per=50`,
   );
 
   return data;
@@ -36,12 +41,12 @@ const fetchData = async (word?: string, date?: string) => {
 type QueryOptions = {
   word?: string;
   date?: string;
-  select?: (data: MailsGetResponse) => MailsGetResponse;
+  page?: number;
 };
 
-export const useMailsQuery = ({ word, date, select }: QueryOptions) =>
+export const useMailsQuery = ({ word, date, page }: QueryOptions) =>
   useQuery({
-    queryKey: [mailsKeys.index(word, date)],
-    queryFn: async () => fetchData(word, date),
-    select,
+    queryKey: [mailsKeys.index(word, date, page)],
+    queryFn: async () => fetchData(word, date, page),
+    keepPreviousData: true,
   });

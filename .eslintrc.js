@@ -112,6 +112,7 @@ module.exports = {
       },
     ],
     'jsx-a11y/label-has-associated-control': ['error', { asserts: 'htmlFor' }],
+    'no-underscore-dangle': ['error', { allow: ['_metadata'] }],
   },
   overrides: [
     {
