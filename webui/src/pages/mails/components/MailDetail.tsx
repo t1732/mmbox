@@ -12,7 +12,7 @@ import {
   TableCell,
   TableBody,
 } from '@mui/material';
-import { Mail } from '../../api/hooks/useMailsQuery';
+import { Mail } from '../../../api/hooks/useMailsQuery';
 import './MailDetail.css';
 
 type Props = Mail;
