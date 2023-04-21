@@ -32,47 +32,54 @@ ENV APP_ROOT=/app
 
 WORKDIR ${APP_ROOT}
 
-ARG NPM_VERSION
-RUN npm install -g npm@${NPM_VERSION}
-
 CMD ["npm", "run", "dev"]
 
 # ============
-# build
+# build backend
 # ============
-FROM golang:1.20.2-alpine as build
+FROM golang:1.20.2-alpine as build-backend
 
 RUN apk add --no-cache gcc musl-dev tzdata
 
-ARG GOARCH=amd64
+ARG GOARCH=$BUILDPLATFORMFROM
 ENV GOOS=linux
 ENV GOARCH=${GOARCH}
 ENV CGO_ENABLED=1
 
-RUN addgroup mmbox && adduser -D -G mmbox mmbox
+WORKDIR /workspace
+
+COPY . ./
+RUN go mod download \
+    && go build -o /go/bin/mmbox -ldflags '-s -w -extldflags "-static"' ./cmd/mmbox/main.go \
+    && rm -rf /workspace/*
+
+# ============
+# build webui
+# ============
+FROM node:19.8.1-alpine3.17 as build-webui
 
 WORKDIR /workspace
 
-COPY . /workspace/
-
-RUN go mod download \
-    && go build -o /go/bin/mmbox -ldflags '-s -w -extldflags "-static"' ./cmd/mmbox/main.go
+COPY . ./
+RUN npm install && npm run build && mkdir /app && mv dist /app/ && rm -rf /workspace/*
 
 # ============
 # release
 # ============
 FROM alpine:3.17.3 as release
 
-COPY --from=build /etc/passwd /etc/passwd
-COPY --from=build /etc/group /etc/group
-COPY --from=build /usr/share/zoneinfo /usr/share/zoneinfo
-COPY --from=build --chown=mmbox:mmbox /go/bin/mmbox /app/bin/mmbox
+COPY --from=build-backend /usr/share/zoneinfo /usr/share/zoneinfo
 
 ENV TZ=Asia/Tokyo
+
+RUN addgroup mmbox && adduser -D -G mmbox mmbox
 
 USER mmbox
 
 WORKDIR /app
+
+COPY --from=build-backend --chown=mmbox:mmbox /go/bin/mmbox /app/bin/mmbox
+COPY --from=build-webui --chown=mmbox:mmbox /app/dist /app/dist
 
 EXPOSE 1025
 EXPOSE 8025
