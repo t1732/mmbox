@@ -76,8 +76,13 @@ export const MailDetail = ({
         </Tabs>
       </Box>
       <TabPanel value={tabIndex} index={0}>
-        {/* eslint-disable-next-line react/no-danger */}
-        <div dangerouslySetInnerHTML={{ __html: html }} />
+        <iframe
+          className="html-frame"
+          title="html"
+          srcDoc={html}
+          width="100%"
+          height={window.outerHeight * 0.6}
+        />
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
         <div className="text-body">{text}</div>
