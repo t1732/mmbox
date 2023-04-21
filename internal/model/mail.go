@@ -60,6 +60,13 @@ func MatchWord(w string) func(db *gorm.DB) *gorm.DB {
 	}
 }
 
+func ExpireDays(expireDays int) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		t := time.Now()
+		return db.Where("created_at < ?", t.AddDate(0, 0, -expireDays))
+	}
+}
+
 func Paginate(page int, per int) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		if page <= 0 {

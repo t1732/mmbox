@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -23,20 +23,23 @@ func NewFlushController(db *gorm.DB) flushImpl {
 }
 
 func (h *flushController) Destroy(c echo.Context) error {
-	if c.QueryParam("word") == "" && c.QueryParam("date") == "" {
-		fmt.Println("param word:" + c.QueryParam("word"))
-		h.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Mail{})
-	} else {
-		fmt.Println("param word:" + c.QueryParam("word"))
-		query := h.db
-		if c.QueryParam("word") != "" {
-			query = query.Scopes(model.MatchWord(c.QueryParam("word")))
-		}
-		if c.QueryParam("date") != "" {
-			query = query.Scopes(model.CreatedAt(c.QueryParam("date")))
-		}
-		query.Delete(&model.Mail{})
+	query := h.db
+
+	if c.QueryParam("word") != "" {
+		query = query.Scopes(model.MatchWord(c.QueryParam("word")))
 	}
 
+	if c.QueryParam("date") != "" {
+		query = query.Scopes(model.CreatedAt(c.QueryParam("date")))
+	}
+
+	if c.QueryParam("expireDays") != "" {
+		d, _ := strconv.Atoi(c.QueryParam("expireDays"))
+		if (d > 0) {
+			query = query.Scopes(model.ExpireDays(d))
+		}
+	}
+
+	query.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Mail{})
 	return c.JSON(http.StatusOK, "success")
 }
