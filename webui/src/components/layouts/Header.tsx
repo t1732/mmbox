@@ -9,7 +9,7 @@ import {
   Toolbar,
 } from '@mui/material';
 import { searchParamsState, themeModeState } from '../../atom';
-import { SearchDialog } from '../contents/SearchDialog';
+import { SearchDialog } from '../SearchDialog';
 import { IconButton } from '../parts/IconButton';
 import { DeleteIcon, SearchIcon, ThemeModeIcon } from '../parts/icon';
 

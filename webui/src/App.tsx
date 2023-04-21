@@ -7,8 +7,8 @@ import { themeModeState } from './atom';
 import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
 import { LayoutWrapper } from './components/LayoutWrapper';
 import { ScrollTop } from './components/ScrollTop';
-import { MailBox } from './components/contents/MailBox';
-import { ConfirmDialog } from './components/contents/ConfirmDialog';
+import { MailBox } from './pages/mails/MailBox';
+import { ConfirmDialog } from './components/ConfirmDialog';
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -80,7 +80,7 @@ const App = () => {
             setOpenConfirm(false);
           }}
         />
-        <ScrollTop targetId='back-to-top' />
+        <ScrollTop targetId="back-to-top" />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

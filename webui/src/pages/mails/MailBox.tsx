@@ -13,8 +13,8 @@ import {
 } from '@mui/material';
 import { searchParamsState } from '../../atom';
 import { useMailsQuery } from '../../api/hooks/useMailsQuery';
-import { MailBoxRow } from './MailBoxRow';
-import { MailBoxRowSkeleton } from './MailBoxRowSkeleton';
+import { MailBoxRow } from './components/MailBoxRow';
+import { MailBoxRowSkeleton } from './components/MailBoxRowSkeleton';
 
 export const MailBox = () => {
   const [page, setPage] = useState(1);

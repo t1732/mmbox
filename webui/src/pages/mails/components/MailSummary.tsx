@@ -8,9 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
-import { Mail } from '../../api/hooks/useMailsQuery';
-import { RelativeTimeText } from '../parts';
-import { Merge } from '../../tools';
+import { Mail } from '../../../api/hooks/useMailsQuery';
+import { RelativeTimeText } from '../../../components/parts';
+import { Merge } from '../../../tools';
 import './MailSummary.css';
 
 type Props = Merge<

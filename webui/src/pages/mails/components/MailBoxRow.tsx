@@ -1,4 +1,4 @@
-import { Mail } from '../../api/hooks/useMailsQuery';
+import { Mail } from '../../../api/hooks/useMailsQuery';
 import { MailSummary } from './MailSummary';
 import { MailDetail } from './MailDetail';
 
