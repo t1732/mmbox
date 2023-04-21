@@ -25,7 +25,7 @@ services:
     volumes:
       - type: volume
         source: mmbox-data
-        target: /data
+        target: /app/data:z
         volume:
           nocopy: true
 
