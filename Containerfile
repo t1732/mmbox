@@ -71,6 +71,7 @@ FROM alpine:3.17.3 as release
 COPY --from=build-backend /usr/share/zoneinfo /usr/share/zoneinfo
 
 ENV TZ=Asia/Tokyo
+ENV MMBOX_DB_FILE_PATH=/app/data/mmbox.db
 
 RUN addgroup mmbox && adduser -D -G mmbox mmbox
 
@@ -80,6 +81,8 @@ WORKDIR /app
 
 COPY --from=build-backend --chown=mmbox:mmbox /go/bin/mmbox /app/bin/mmbox
 COPY --from=build-webui --chown=mmbox:mmbox /app/dist /app/dist
+
+RUN mkdir /app/data
 
 EXPOSE 1025
 EXPOSE 8025
