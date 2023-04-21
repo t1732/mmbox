@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { searchParamsState } from '../../atom';
 import { useMailsQuery } from '../../api/hooks/useMailsQuery';
+import { messageIdToAnchorId } from '../../tools';
 import { MailBoxRow } from './components/MailBoxRow';
 import { MailBoxRowSkeleton } from './components/MailBoxRowSkeleton';
 
@@ -66,7 +67,7 @@ export const MailBox = () => {
       <Card variant="outlined">
         <List sx={{ width: '100%', padding: 0 }} component="div">
           {data.records.map((mail, i) => (
-            <div key={mail.messageId}>
+            <div key={mail.messageId} id={messageIdToAnchorId(mail.messageId)}>
               <MailBoxRow {...mail} />
               {i + 1 < data.records.length && (
                 <Divider variant="inset" component="div" />

@@ -17,6 +17,7 @@ export const MailBoxRow = ({
   text,
 }: Props) => (
   <MailSummary
+    messageId={messageId}
     subject={subject}
     createdAt={createdAt}
     fromAddresses={fromAddresses}

@@ -1,4 +1,4 @@
-import { useMemo, useState, ReactNode } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import {
   Avatar,
   Collapse,
@@ -10,11 +10,11 @@ import {
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { Mail } from '../../../api/hooks/useMailsQuery';
 import { RelativeTimeText } from '../../../components/parts';
-import { Merge } from '../../../tools';
+import { Merge, messageIdToAnchorId } from '../../../tools';
 import './MailSummary.css';
 
 type Props = Merge<
-  Pick<Mail, 'subject' | 'createdAt' | 'fromAddresses'>,
+  Pick<Mail, 'messageId' | 'subject' | 'createdAt' | 'fromAddresses'>,
   {
     children: ReactNode;
   }
@@ -24,6 +24,7 @@ const concatAddress = (address: string, name: string) =>
   `${address}${name && `<${name}>`}`;
 
 export const MailSummary = ({
+  messageId,
   subject,
   createdAt,
   fromAddresses,
@@ -33,6 +34,20 @@ export const MailSummary = ({
 
   const handleClick = () => {
     setOpen(!open);
+  };
+
+  const handleEntered = () => {
+    if (!open) {
+      return;
+    }
+
+    const anchor = document.getElementById(messageIdToAnchorId(messageId));
+
+    if (anchor) {
+      anchor.scrollIntoView({
+        block: 'center',
+      });
+    }
   };
 
   const joinedFromAddresses = useMemo<string | undefined>(
@@ -83,7 +98,12 @@ export const MailSummary = ({
           <ExpandMore color="secondary" />
         )}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse
+        in={open}
+        timeout="auto"
+        unmountOnExit
+        onEntered={handleEntered}
+      >
         {children}
       </Collapse>
     </>
