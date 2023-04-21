@@ -6,6 +6,7 @@ import { useAtom } from 'jotai';
 import { themeModeState } from './atom';
 import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
 import { LayoutWrapper } from './components/LayoutWrapper';
+import { ScrollTop } from './components/ScrollTop';
 import { MailBox } from './components/contents/MailBox';
 import { ConfirmDialog } from './components/contents/ConfirmDialog';
 
@@ -67,6 +68,7 @@ const App = () => {
           loading={deleteMutation.isLoading}
           handleDelete={handleDelete}
         >
+          <div id="back-to-top" />
           <MailBox />
         </LayoutWrapper>
         <ConfirmDialog
@@ -78,6 +80,7 @@ const App = () => {
             setOpenConfirm(false);
           }}
         />
+        <ScrollTop targetId='back-to-top' />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
