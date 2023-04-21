@@ -35,7 +35,7 @@ export const Header = ({ loading, handleDelete }: Props) => {
 
   return (
     <AppBar color="primary" elevation={1}>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -44,7 +44,6 @@ export const Header = ({ loading, handleDelete }: Props) => {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
@@ -55,7 +54,7 @@ export const Header = ({ loading, handleDelete }: Props) => {
             MMBOX
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box>
             <IconButton
               size="large"
               aria-label="search"
