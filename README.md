@@ -42,6 +42,12 @@ Hold for 3 days only
 curl -X DELETE "http://127.0.0.1:8025/flush?expireDays=3"
 ```
 
+crontab
+
+```crontab
+* 0 * * * curl --silent -X DELETE "http://127.0.0.1:8025/flush?expireDays=3"
+```
+
 ## Usage in Rails
 
 Add or edit the following to the environments file for your environment.
