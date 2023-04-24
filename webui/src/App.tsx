@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react';
+import { createContext, lazy, useMemo, useState, Suspense } from 'react';
 import { CssBaseline, PaletteMode } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -8,8 +8,19 @@ import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
 import { LayoutWrapper } from './components/LayoutWrapper';
 import { ScrollTop } from './components/ScrollTop';
 import { MailBox } from './pages/mails/MailBox';
-import { ConfirmDialog } from './components/ConfirmDialog';
-import { SearchDialog } from './components/SearchDialog';
+
+const ConfirmDialog = lazy(() =>
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  import('./components/ConfirmDialog').then(({ ConfirmDialog }) => ({
+    default: ConfirmDialog,
+  })),
+);
+const SearchDialog = lazy(() =>
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  import('./components/SearchDialog').then(({ SearchDialog }) => ({
+    default: SearchDialog,
+  })),
+);
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -79,7 +90,7 @@ const App = () => {
         <LayoutWrapper
           loading={deleteMutation.isLoading}
           colorMode={colorMode}
-          searchingBadge={searchWord === '' && searchDate === ''}
+          searchingBadge={searchWord !== '' || searchDate !== ''}
           handleDelete={handleDelete}
           handleSearch={() => setSearchOpen(true)}
           handleToggleColorMode={colorModeContext.toggleColorMode}
@@ -87,22 +98,24 @@ const App = () => {
           <div id="back-to-top" />
           <MailBox />
         </LayoutWrapper>
-        <ConfirmDialog
-          open={openConfirm}
-          title="Confirmation"
-          message="Delete all emails ?"
-          handleApply={handleApply}
-          handleCancel={() => {
-            setOpenConfirm(false);
-          }}
-        />
-        <SearchDialog
-          open={searchOpen}
-          defaultWord={searchWord}
-          defaultDate={searchDate}
-          handleCancel={() => setSearchOpen(false)}
-          handleSearch={handleSearch}
-        />
+        <Suspense fallback="">
+          <ConfirmDialog
+            open={openConfirm}
+            title="Confirmation"
+            message="Delete all emails ?"
+            handleApply={handleApply}
+            handleCancel={() => {
+              setOpenConfirm(false);
+            }}
+          />
+          <SearchDialog
+            open={searchOpen}
+            defaultWord={searchWord}
+            defaultDate={searchDate}
+            handleCancel={() => setSearchOpen(false)}
+            handleSearch={handleSearch}
+          />
+        </Suspense>
         <ScrollTop targetId="back-to-top" />
       </ThemeProvider>
     </ColorModeContext.Provider>
