@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useAtom } from 'jotai';
 import {
   AppBar,
   Badge,
@@ -8,99 +6,83 @@ import {
   Typography,
   Toolbar,
 } from '@mui/material';
-import { searchParamsState, themeModeState } from '../../atom';
-import { SearchDialog } from '../SearchDialog';
 import { IconButton } from '../parts/IconButton';
 import { DeleteIcon, SearchIcon, ThemeModeIcon } from '../parts/icon';
 
-type Props = {
+export type Props = {
   loading: boolean;
+  colorMode: string;
+  searchingBadge: boolean;
   handleDelete: () => void;
+  handleSearch: () => void;
+  handleToggleColorMode: () => void;
 };
 
-export const Header = ({ loading, handleDelete }: Props) => {
-  const [open, setOpen] = useState(false);
-  const [{ word: searchWord, date: searchDate }, setSearchParams] =
-    useAtom(searchParamsState);
-
-  const [mode, setMode] = useAtom(themeModeState);
-  const toggleThemeMode = () => {
-    setMode(mode === 'light' ? 'dark' : 'light');
-  };
-
-  const handleSearch = (word: string, date: string) => {
-    setSearchParams({ word, date });
-    setOpen(false);
-  };
-
-  return (
-    <AppBar color="primary" elevation={1}>
-      <Container maxWidth="lg">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'secondary.main',
-              textDecoration: 'none',
-            }}
+export const Header = ({
+  loading,
+  colorMode,
+  searchingBadge,
+  handleDelete,
+  handleSearch,
+  handleToggleColorMode,
+}: Props) => (
+  <AppBar color="primary" elevation={1}>
+    <Container maxWidth="lg">
+      <Toolbar disableGutters>
+        <Typography
+          variant="h6"
+          noWrap
+          component="a"
+          href="/"
+          sx={{
+            mr: 2,
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'secondary.main',
+            textDecoration: 'none',
+          }}
+        >
+          MMBOX
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        <Box>
+          <IconButton
+            size="large"
+            aria-label="search"
+            color="secondary"
+            onClick={handleSearch}
+            disabled={loading}
+            loadingProps={{ size: 24, color: 'secondary' }}
           >
-            MMBOX
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box>
-            <IconButton
-              size="large"
-              aria-label="search"
+            <Badge
               color="secondary"
-              onClick={() => setOpen(true)}
-              disabled={loading}
-              loadingProps={{ size: 24, color: 'secondary' }}
+              variant={searchingBadge ? 'standard' : 'dot'}
             >
-              <Badge
-                color="secondary"
-                variant={
-                  searchWord === '' && searchDate === '' ? 'standard' : 'dot'
-                }
-              >
-                <SearchIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="delete"
-              color="secondary"
-              onClick={handleDelete}
-              loading={loading}
-              disabled={loading}
-              loadingProps={{ size: 24, color: 'secondary' }}
-            >
-              <DeleteIcon />
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="theme"
-              color="secondary"
-              onClick={toggleThemeMode}
-            >
-              <ThemeModeIcon outlined={mode === 'dark'} />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </Container>
-      <SearchDialog
-        open={open}
-        defaultWord={searchWord}
-        defaultDate={searchDate}
-        handleCancel={() => setOpen(false)}
-        handleSearch={handleSearch}
-      />
-    </AppBar>
-  );
-};
+              <SearchIcon />
+            </Badge>
+          </IconButton>
+          <IconButton
+            size="large"
+            aria-label="delete"
+            color="secondary"
+            onClick={handleDelete}
+            loading={loading}
+            disabled={loading}
+            loadingProps={{ size: 24, color: 'secondary' }}
+          >
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
+            size="large"
+            aria-label="theme"
+            color="secondary"
+            onClick={handleToggleColorMode}
+          >
+            <ThemeModeIcon outlined={colorMode === 'dark'} />
+          </IconButton>
+        </Box>
+      </Toolbar>
+    </Container>
+  </AppBar>
+);

@@ -3,12 +3,13 @@ import { CssBaseline, PaletteMode } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useAtom } from 'jotai';
-import { themeModeState } from './atom';
+import { colorModeState, searchParamsState } from './atom';
 import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
 import { LayoutWrapper } from './components/LayoutWrapper';
 import { ScrollTop } from './components/ScrollTop';
 import { MailBox } from './pages/mails/MailBox';
 import { ConfirmDialog } from './components/ConfirmDialog';
+import { SearchDialog } from './components/SearchDialog';
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -37,18 +38,21 @@ const getDesignTokens = (mode: PaletteMode) => ({
 });
 
 const App = () => {
-  const [mode, setMode] = useAtom(themeModeState);
-  const colorMode = useMemo(
+  const [colorMode, setColorMode] = useAtom(colorModeState);
+  const colorModeContext = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode: PaletteMode) =>
+        setColorMode((prevMode: PaletteMode) =>
           prevMode === 'light' ? 'dark' : 'light',
         );
       },
     }),
-    [setMode],
+    [setColorMode],
   );
-  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  const theme = useMemo(
+    () => createTheme(getDesignTokens(colorMode)),
+    [colorMode],
+  );
 
   const [openConfirm, setOpenConfirm] = useState(false);
   const deleteMutation = useDeleteMailsMutation();
@@ -60,13 +64,25 @@ const App = () => {
     setOpenConfirm(false);
   };
 
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [{ word: searchWord, date: searchDate }, setSearchParams] =
+    useAtom(searchParamsState);
+  const handleSearch = (word: string, date: string) => {
+    setSearchParams({ word, date });
+    setSearchOpen(false);
+  };
+
   return (
-    <ColorModeContext.Provider value={colorMode}>
+    <ColorModeContext.Provider value={colorModeContext}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <LayoutWrapper
           loading={deleteMutation.isLoading}
+          colorMode={colorMode}
+          searchingBadge={searchWord === '' && searchDate === ''}
           handleDelete={handleDelete}
+          handleSearch={() => setSearchOpen(true)}
+          handleToggleColorMode={colorModeContext.toggleColorMode}
         >
           <div id="back-to-top" />
           <MailBox />
@@ -79,6 +95,13 @@ const App = () => {
           handleCancel={() => {
             setOpenConfirm(false);
           }}
+        />
+        <SearchDialog
+          open={searchOpen}
+          defaultWord={searchWord}
+          defaultDate={searchDate}
+          handleCancel={() => setSearchOpen(false)}
+          handleSearch={handleSearch}
         />
         <ScrollTop targetId="back-to-top" />
       </ThemeProvider>

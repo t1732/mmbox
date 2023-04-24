@@ -1,4 +1,4 @@
 import { searchParamsState } from './searchParamsState';
-import { themeModeState } from './themeModeState';
+import { colorModeState } from './colorModeState';
 
-export { searchParamsState, themeModeState };
+export { searchParamsState, colorModeState };
