@@ -57,7 +57,7 @@ export const Header = ({
           >
             <Badge
               color="secondary"
-              variant={searchingBadge ? 'standard' : 'dot'}
+              variant={searchingBadge ? 'dot' : 'standard'}
             >
               <SearchIcon />
             </Badge>

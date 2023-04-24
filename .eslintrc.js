@@ -14,6 +14,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
+    'plugin:storybook/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -79,7 +80,12 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'import/prefer-default-export': ['off', { target: 'any' }],
+    'import/prefer-default-export': [
+      'off',
+      {
+        target: 'any',
+      },
+    ],
     'import/no-unresolved': 'error',
     'react/jsx-filename-extension': [
       'error',
@@ -111,8 +117,18 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
-    'jsx-a11y/label-has-associated-control': ['error', { asserts: 'htmlFor' }],
-    'no-underscore-dangle': ['error', { allow: ['_metadata'] }],
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        asserts: 'htmlFor',
+      },
+    ],
+    'no-underscore-dangle': [
+      'error',
+      {
+        allow: ['_metadata'],
+      },
+    ],
   },
   overrides: [
     {

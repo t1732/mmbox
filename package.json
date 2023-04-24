@@ -9,7 +9,9 @@
     "lint:fix": "eslint --fix 'webui/src/**/*.{js,jsx,ts,tsx}'",
     "lint:conflict": "eslint-config-prettier 'webui/src/**/*.{js,jsx,ts,tsx}'",
     "preinstall": "typesync || :",
-    "prepare": "simple-git-hooks > /dev/null"
+    "prepare": "simple-git-hooks > /dev/null",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -25,6 +27,13 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.6",
+    "@storybook/addon-interactions": "^7.0.6",
+    "@storybook/addon-links": "^7.0.6",
+    "@storybook/blocks": "^7.0.6",
+    "@storybook/react": "^7.0.6",
+    "@storybook/react-vite": "^7.0.6",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@types/node": "^18.15.12",
     "@types/react": "^18.0.34",
     "@types/react-dom": "^18.0.11",
@@ -41,9 +50,13 @@
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-storybook": "^0.6.11",
     "lint-staged": "^13.2.1",
     "prettier": "^2.8.7",
+    "prop-types": "^15.8.1",
+    "remark-gfm": "^3.0.1",
     "simple-git-hooks": "^2.8.1",
+    "storybook": "^7.0.6",
     "typescript": "^5.0.4",
     "vitawind": "^2.2.4",
     "vite": "^4.2.1",
