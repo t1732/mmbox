@@ -62,3 +62,35 @@ Here is an example of running mmbox on the same server as rails.
   }
 end
 ```
+
+
+## install amazonlinux(fedora)
+
+require tar,gzip,wget
+
+```sh
+wget https://github.com/t1732/mmbox/releases/download/v0.1.1/mmbox_linux_amd64.tar.gz
+tar -zxvf mmbox_linux_amd64.tar.gz
+mv mmbox /var/
+```
+
+create /etc/systemd/system/mmbox.service
+
+```
+[Unit]
+Description=mmbox HTTP,SMTP Server
+After=network.target
+
+[Service]
+WorkingDirectory=/var/mmbox
+ExecStart=/var/mmbox/bin/mmbox
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```sh
+systemctl enable mmbox
+systemctl start mmbox
+```
