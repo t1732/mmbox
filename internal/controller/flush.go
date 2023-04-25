@@ -35,7 +35,7 @@ func (h *flushController) Destroy(c echo.Context) error {
 
 	if c.QueryParam("expireDays") != "" {
 		d, _ := strconv.Atoi(c.QueryParam("expireDays"))
-		if (d > 0) {
+		if d > 0 {
 			query = query.Scopes(model.ExpireDays(d))
 		}
 	}
