@@ -34,7 +34,7 @@ func (h *mailController) Index(c echo.Context) error {
 	var total int64
 	q.Model(&mails).Count(&total)
 	if (total > 0) {
-		q.Select("id", "created_at", "source").Scopes(model.Paginate(page, per)).Find(&mails).Order("id desc")
+		q.Select("id", "created_at", "source").Scopes(model.Paginate(page, per)).Order("id DESC").Find(&mails)
 	}
 
 	records := make([]response.Mail, len(mails))
