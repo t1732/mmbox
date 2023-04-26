@@ -45,12 +45,13 @@ func (h *mailController) Index(c echo.Context) error {
 		}
 
 		records[i] = response.Mail{
-			CreatedAt:   e.CreatedAt,
-			Subject:     pe.Headers.Subject,
-			MessageID:   string(pe.Headers.MessageID),
-			ContentType: pe.Headers.ContentType.ContentType,
-			Text:        pe.Text,
-			HTML:        pe.HTML,
+			CreatedAt:    e.CreatedAt,
+			Subject:      pe.Headers.Subject,
+			MessageID:    string(pe.Headers.MessageID),
+			ContentType:  pe.Headers.ContentType.ContentType,
+			Text:         pe.Text,
+			HTML:         pe.HTML,
+			ExtraHeaders: pe.Headers.ExtraHeaders,
 		}
 		records[i].SetFromAddresses(pe.Headers.From)
 		records[i].SetToAddresses(pe.Headers.To)

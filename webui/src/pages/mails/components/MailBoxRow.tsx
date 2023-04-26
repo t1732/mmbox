@@ -15,6 +15,7 @@ export const MailBoxRow = ({
   contentType,
   html,
   text,
+  extraHeaders,
 }: Props) => (
   <MailSummary
     messageId={messageId}
@@ -33,6 +34,7 @@ export const MailBoxRow = ({
       contentType={contentType}
       html={html}
       text={text}
+      extraHeaders={extraHeaders}
     />
   </MailSummary>
 );

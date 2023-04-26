@@ -6,16 +6,17 @@ import (
 )
 
 type Mail struct {
-	CreatedAt     time.Time     `json:"createdAt"`
-	FromAddresses []MailAddress `json:"fromAddresses"`
-	ToAddresses   []MailAddress `json:"toAddresses"`
-	CcAddresses   []MailAddress `json:"ccAddresses"`
-	BccAddresses  []MailAddress `json:"bccAddresses"`
-	Subject       string        `json:"subject"`
-	MessageID     string        `json:"messageId"`
-	ContentType   string        `json:"contentType"`
-	Text          string        `json:"text"`
-	HTML          string        `json:"html"`
+	CreatedAt     time.Time           `json:"createdAt"`
+	FromAddresses []MailAddress       `json:"fromAddresses"`
+	ToAddresses   []MailAddress       `json:"toAddresses"`
+	CcAddresses   []MailAddress       `json:"ccAddresses"`
+	BccAddresses  []MailAddress       `json:"bccAddresses"`
+	Subject       string              `json:"subject"`
+	MessageID     string              `json:"messageId"`
+	ContentType   string              `json:"contentType"`
+	Text          string              `json:"text"`
+	HTML          string              `json:"html"`
+	ExtraHeaders  map[string][]string `json:"extraHeaders"`
 }
 
 func (m *Mail) SetFromAddresses(mads []*mail.Address) {

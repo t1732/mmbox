@@ -12,6 +12,7 @@ export type Mail = {
   contentType: string;
   html: string;
   text: string;
+  extraHeaders: { [key: string]: string[] };
 };
 
 type MailAddress = {

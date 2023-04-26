@@ -54,6 +54,7 @@ export const MailDetail = ({
   contentType,
   html,
   text,
+  extraHeaders,
 }: Props) => {
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -176,6 +177,12 @@ export const MailDetail = ({
                   </TableCell>
                 </TableRow>
               )}
+              {Object.keys(extraHeaders).map((key) => (
+                <TableRow key={`${messageId}-${key}`}>
+                  <TableCell>{key}</TableCell>
+                  <TableCell>{extraHeaders[key]}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
