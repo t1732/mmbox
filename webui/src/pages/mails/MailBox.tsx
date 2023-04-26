@@ -35,7 +35,7 @@ export const MailBox = () => {
   if (isLoading) {
     return (
       <Card>
-        <MailBoxRowSkeleton count={5} />
+        <MailBoxRowSkeleton count={10} />
       </Card>
     );
   }
