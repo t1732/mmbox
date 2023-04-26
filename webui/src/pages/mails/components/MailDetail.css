@@ -1,6 +1,8 @@
 .text-body {
   white-space: pre-wrap;
   word-wrap: break-word;
+  overflow: scroll;
+
 }
 
 .html-frame {

@@ -86,11 +86,17 @@ export const MailDetail = ({
           title="html"
           srcDoc={html}
           width="100%"
-          height={window.outerHeight * 0.6}
+          height={window.outerHeight * 0.65}
         />
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
-        <div className="text-body">{text}</div>
+        <Paper
+          className="text-body"
+          elevation={2}
+          sx={{ padding: '30px', maxHeight: window.outerHeight * 0.65 }}
+        >
+          {text}
+        </Paper>
       </TabPanel>
       <TabPanel value={tabIndex} index={2}>
         <TableContainer component={Paper}>
