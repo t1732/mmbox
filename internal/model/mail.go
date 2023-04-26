@@ -1,14 +1,12 @@
 package model
 
 import (
-	"bytes"
-	"encoding/base64"
 	"fmt"
-	"mime/quotedprintable"
 	"strings"
 	"time"
 
 	"github.com/mnako/letters"
+	"golang.org/x/net/html"
 	"gorm.io/gorm"
 )
 
@@ -17,6 +15,7 @@ type Mail struct {
 	CreatedAt time.Time `gorm:"not null"`
 	Date      string    `gorm:"not null;index:search"`
 	Source    string    `gorm:"not null"`
+	SearchText string   `gorm:"not null"`
 }
 
 func (m *Mail) BeforeSave(tx *gorm.DB) (err error) {
@@ -27,6 +26,7 @@ func (m *Mail) BeforeSave(tx *gorm.DB) (err error) {
 
 	m.CreatedAt = em.Headers.Date
 	m.Date = em.Headers.Date.Format("2006-01-02")
+	m.SearchText = fmt.Sprintf("%s %s %s", em.Headers.Subject, em.Text, extractText(em.HTML))
 
 	return
 }
@@ -54,9 +54,8 @@ func MatchWord(w string) func(db *gorm.DB) *gorm.DB {
 			return db
 		}
 
-		bsw := base64.StdEncoding.EncodeToString([]byte(sw))
-		qsw := toQuotedPrintable(sw)
-		return db.Where("source LIKE ? OR source LIKE ?", fmt.Sprintf("%%%s%%", bsw), fmt.Sprintf("%%%s%%", qsw))
+		wsw := fmt.Sprintf("%%%s%%", sw)
+		return db.Where("source LIKE ? OR search_text LIKE ?", wsw, wsw)
 	}
 }
 
@@ -85,16 +84,21 @@ func Paginate(page int, per int) func(db *gorm.DB) *gorm.DB {
 	}
 }
 
-func toQuotedPrintable(s string) string {
-	var ac bytes.Buffer
-	w := quotedprintable.NewWriter(&ac)
-	_, err := w.Write([]byte(s))
-	if err != nil {
-		return ""
+func extractText(htmlStr string) (text string) {
+	r := strings.NewReader(htmlStr)
+	z := html.NewTokenizer(r)
+
+	loop := true
+	for loop {
+    tt := z.Next()
+    loop = tt != html.ErrorToken
+    if loop {
+        switch tt {
+        case html.TextToken:
+					text = fmt.Sprintf("%s %s", text, z.Text())
+        }
+    }
 	}
-	err = w.Close()
-	if err != nil {
-		return ""
-	}
-	return ac.String()
+
+	return
 }
