@@ -27,12 +27,13 @@ type MailsGetResponse = {
 };
 
 export const mailsKeys = {
-  index: (word?: string, date?: string, page?: number) => ['mails', word, date, page] as const,
+  index: (word?: string, date?: string, page?: number) =>
+    ['mails', word, date, page] as const,
 };
 
 const fetchData = async (word?: string, date?: string, page?: number) => {
   const { data } = await axios.get<MailsGetResponse>(
-    `/mails?word=${word ?? ''}&date=${date ?? ''}&page=${page ?? 1}&per=50`,
+    `/mails?word=${word ?? ''}&date=${date ?? ''}&page=${page ?? 1}&per=100`,
   );
 
   return data;

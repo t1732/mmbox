@@ -73,10 +73,10 @@ func Paginate(page int, per int) func(db *gorm.DB) *gorm.DB {
 		}
 
 		switch {
-		case per > 50:
-			per = 50
-		case per <= 30:
-			per = 30
+		case per > 100:
+			per = 100
+		case per <= 0:
+			per = 10
 		}
 
 		offset := (page - 1) * per
