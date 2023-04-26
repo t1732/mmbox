@@ -75,8 +75,8 @@ export const MailDetail = ({
           centered
           textColor="secondary"
         >
-          <Tab label="Html" {...a11yProps(0)} />
-          <Tab label="Text" {...a11yProps(1)} />
+          <Tab label="Html" {...a11yProps(0)} disabled={html === ''} />
+          <Tab label="Text" {...a11yProps(1)} disabled={text === ''} />
           <Tab label="HEADER" {...a11yProps(2)} />
         </Tabs>
       </Box>
