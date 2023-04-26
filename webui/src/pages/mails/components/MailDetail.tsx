@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useState, ReactNode, SyntheticEvent } from 'react';
+import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import {
   Box,
   Paper,
@@ -60,6 +60,11 @@ export const MailDetail = ({
   const handleChange = (_event: SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
+
+  useEffect(() => {
+    setTabIndex(html === '' ? 1 : 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Box sx={{ width: '100%' }}>
