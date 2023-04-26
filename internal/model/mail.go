@@ -11,11 +11,11 @@ import (
 )
 
 type Mail struct {
-	ID        uint
-	CreatedAt time.Time `gorm:"not null"`
-	Date      string    `gorm:"not null;index:search"`
-	Source    string    `gorm:"not null"`
-	SearchText string   `gorm:"not null"`
+	ID         uint
+	CreatedAt  time.Time `gorm:"not null"`
+	Date       string    `gorm:"not null;index:search"`
+	Source     string    `gorm:"not null"`
+	SearchText string    `gorm:"not null"`
 }
 
 func (m *Mail) BeforeSave(tx *gorm.DB) (err error) {
@@ -90,14 +90,14 @@ func extractText(htmlStr string) (text string) {
 
 	loop := true
 	for loop {
-    tt := z.Next()
-    loop = tt != html.ErrorToken
-    if loop {
-        switch tt {
-        case html.TextToken:
-					text = fmt.Sprintf("%s %s", text, z.Text())
-        }
-    }
+		tt := z.Next()
+		loop = tt != html.ErrorToken
+		if loop {
+			switch tt {
+			case html.TextToken:
+				text = fmt.Sprintf("%s %s", text, z.Text())
+			}
+		}
 	}
 
 	return
