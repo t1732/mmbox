@@ -1,7 +1,9 @@
 package response
 
 import (
+	"fmt"
 	"net/mail"
+	"regexp"
 	"time"
 )
 
@@ -33,6 +35,11 @@ func (m *Mail) SetCcAddresses(mads []*mail.Address) {
 
 func (m *Mail) SetBccAddresses(mads []*mail.Address) {
 	m.BccAddresses = convertToMailAddresses(mads)
+}
+
+func (m *Mail) ReplaceInlineCIDtoURL(mailID uint, baseUrl string) {
+	r := regexp.MustCompile(`cid:([^\"]*)`)
+	m.HTML = r.ReplaceAllString(m.HTML, fmt.Sprintf("%s/mails/%d/inline_files/$1", baseUrl, mailID))
 }
 
 func convertToMailAddresses(mads []*mail.Address) (addresses []MailAddress) {
