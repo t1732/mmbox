@@ -11,8 +11,11 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Stack,
 } from '@mui/material';
 import { Mail } from '../../../api/hooks/useMailsQuery';
+import { IconButton } from '../../../components/parts';
+import { DownloadIcon } from '../../../components/parts/icon';
 import './MailDetail.css';
 
 type Props = Mail;
@@ -55,6 +58,7 @@ export const MailDetail = ({
   html,
   text,
   extraHeaders,
+  attachedFiles,
 }: Props) => {
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -79,6 +83,11 @@ export const MailDetail = ({
           <Tab label="Html" {...a11yProps(0)} disabled={html === ''} />
           <Tab label="Text" {...a11yProps(1)} disabled={text === ''} />
           <Tab label="HEADER" {...a11yProps(2)} />
+          <Tab
+            label="Attached"
+            {...a11yProps(3)}
+            disabled={(attachedFiles ?? []).length === 0}
+          />
         </Tabs>
       </Box>
       <TabPanel value={tabIndex} index={0}>
@@ -100,8 +109,8 @@ export const MailDetail = ({
         </Paper>
       </TabPanel>
       <TabPanel value={tabIndex} index={2}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableContainer component={Paper} sx={{ minWidth: 650 }}>
+          <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
@@ -186,6 +195,36 @@ export const MailDetail = ({
             </TableBody>
           </Table>
         </TableContainer>
+      </TabPanel>
+      <TabPanel value={tabIndex} index={3}>
+        <Stack direction="row" justifyContent="center" alignItems="flex-start">
+          <TableContainer component={Paper} sx={{ maxWidth: 600 }}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Size</TableCell>
+                  <TableCell>Download</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(attachedFiles ?? []).map(({ name, size, url }) => (
+                  <TableRow key={`${name}-${size}`}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{size}</TableCell>
+                    <TableCell>
+                      <a href={url} download>
+                        <IconButton>
+                          <DownloadIcon />
+                        </IconButton>
+                      </a>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Stack>
       </TabPanel>
     </Box>
   );

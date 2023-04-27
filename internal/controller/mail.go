@@ -17,6 +17,7 @@ import (
 type mailImpl interface {
 	Index(c echo.Context) error
 	InlineFile(c echo.Context) error
+	AttachedFile(c echo.Context) error
 }
 
 type mailController struct {
@@ -61,6 +62,7 @@ func (h *mailController) Index(c echo.Context) error {
 		records[i].SetToAddresses(pm.Headers.To)
 		records[i].SetCcAddresses(pm.Headers.Cc)
 		records[i].SetBccAddresses(pm.Headers.Bcc)
+		records[i].SetAttachedFiles(pm.AttachedFiles, e.ID, baseUrl)
 		records[i].ReplaceInlineCIDtoURL(e.ID, baseUrl)
 	}
 
@@ -75,7 +77,7 @@ func (h *mailController) Index(c echo.Context) error {
 }
 
 func (h *mailController) InlineFile(c echo.Context) error {
-	id  := c.Param("id")
+	id := c.Param("id")
 	cid := c.Param("cid")
 
 	mail := model.Mail{}
@@ -91,6 +93,29 @@ func (h *mailController) InlineFile(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, "")
 	}
 
+	return c.Blob(http.StatusOK, f.ContentType.ContentType, f.Data)
+}
+
+func (h *mailController) AttachedFile(c echo.Context) error {
+	id := c.Param("id")
+	index, _ := strconv.Atoi(c.Param("index"))
+
+	mail := model.Mail{}
+	h.db.First(&mail, id)
+
+	pm, err := mail.Parse()
+	if err != nil {
+		return err
+	}
+
+	f := pm.AttachedFiles[index]
+	name := f.ContentType.Params["filename"]
+	if name == "" {
+		name = f.ContentType.Params["name"]
+	}
+
+	c.Response().Header().Set(echo.HeaderContentDisposition, fmt.Sprintf("attachment; filename=\"%s\"", name))
+	c.Response().Header().Set(echo.HeaderContentLength, strconv.Itoa(len(f.Data)))
 	return c.Blob(http.StatusOK, f.ContentType.ContentType, f.Data)
 }
 

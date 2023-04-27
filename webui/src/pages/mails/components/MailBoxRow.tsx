@@ -16,12 +16,14 @@ export const MailBoxRow = ({
   html,
   text,
   extraHeaders,
+  attachedFiles,
 }: Props) => (
   <MailSummary
     messageId={messageId}
     subject={subject}
     createdAt={createdAt}
     fromAddresses={fromAddresses}
+    hasAttachments={(attachedFiles ?? []).length > 0}
   >
     <MailDetail
       messageId={messageId}
@@ -35,6 +37,7 @@ export const MailBoxRow = ({
       html={html}
       text={text}
       extraHeaders={extraHeaders}
+      attachedFiles={attachedFiles}
     />
   </MailSummary>
 );

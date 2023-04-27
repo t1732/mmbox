@@ -1,3 +1,4 @@
+import { IconButton } from './IconButton';
 import { RelativeTimeText } from './RelativeTimeText';
 
-export { RelativeTimeText };
+export { IconButton, RelativeTimeText };

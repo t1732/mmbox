@@ -13,11 +13,18 @@ export type Mail = {
   html: string;
   text: string;
   extraHeaders: { [key: string]: string[] };
+  attachedFiles: AttachedFile[] | null;
 };
 
 type MailAddress = {
   address: string;
   name: string;
+};
+
+type AttachedFile = {
+  name: string;
+  size: number;
+  url: string;
 };
 
 type MailsGetResponse = {

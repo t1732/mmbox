@@ -37,6 +37,7 @@ func HttpNewServer(db *gorm.DB) *echo.Echo {
 	mailCtl := controller.NewMialController(db)
 	e.GET("/mails", mailCtl.Index)
 	e.GET("/mails/:id/inline_files/:cid", mailCtl.InlineFile)
+	e.GET("/mails/:id/attached_files/:index", mailCtl.AttachedFile)
 	flCtl := controller.NewFlushController(db)
 	e.DELETE("/flush", flCtl.Destroy)
 

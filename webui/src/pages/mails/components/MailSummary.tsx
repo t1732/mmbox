@@ -10,12 +10,14 @@ import {
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { Mail } from '../../../api/hooks/useMailsQuery';
 import { RelativeTimeText } from '../../../components/parts';
+import { AttachFileIcon } from '../../../components/parts/icon';
 import { Merge, messageIdToAnchorId } from '../../../tools';
 import './MailSummary.css';
 
 type Props = Merge<
   Pick<Mail, 'messageId' | 'subject' | 'createdAt' | 'fromAddresses'>,
   {
+    hasAttachments: boolean;
     children: ReactNode;
   }
 >;
@@ -28,6 +30,7 @@ export const MailSummary = ({
   subject,
   createdAt,
   fromAddresses,
+  hasAttachments,
   children,
 }: Props) => {
   const [open, setOpen] = useState(false);
@@ -74,6 +77,17 @@ export const MailSummary = ({
     <>
       <ListItemButton onClick={handleClick} dense>
         <ListItemAvatar>
+          {hasAttachments && (
+            <AttachFileIcon
+              sx={{
+                fontSize: 20,
+                position: 'absolute',
+                zIndex: 1,
+                left: 38,
+                top: 12,
+              }}
+            />
+          )}
           <Avatar sx={{ bgcolor: 'secondary.main' }}>{avatarStr}</Avatar>
         </ListItemAvatar>
         <ListItemText
