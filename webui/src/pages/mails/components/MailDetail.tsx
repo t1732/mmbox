@@ -1,21 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
-import {
-  Box,
-  Paper,
-  Tab,
-  Tabs,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Stack,
-} from '@mui/material';
+import { Box, Paper, Tab, Tabs } from '@mui/material';
 import { Mail } from '../../../api/hooks/useMailsQuery';
-import { IconButton } from '../../../components/parts';
-import { DownloadIcon } from '../../../components/parts/icon';
+import { AttachedFilesTable } from './AttachedFilesTable';
+import { HeadersTable } from './HeadersTable';
+import { TabContent } from './TabContent';
 import './MailDetail.css';
 
 type Props = Mail;
@@ -91,140 +80,46 @@ export const MailDetail = ({
         </Tabs>
       </Box>
       <TabPanel value={tabIndex} index={0}>
-        <iframe
-          className="html-frame"
-          title="html"
-          srcDoc={html}
-          width="100%"
-          height={window.outerHeight * 0.65}
-        />
+        <TabContent>
+          <iframe
+            className="html-frame"
+            title="html"
+            srcDoc={html}
+            width="100%"
+            height={window.outerHeight * 0.65}
+          />
+        </TabContent>
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
-        <Paper
-          className="text-body"
-          elevation={2}
-          sx={{ padding: '30px', maxHeight: window.outerHeight * 0.65 }}
-        >
-          {text}
-        </Paper>
+        <TabContent>
+          <Paper
+            className="text-body"
+            elevation={2}
+            sx={{ padding: '30px', maxHeight: window.outerHeight * 0.65 }}
+          >
+            {text}
+          </Paper>
+        </TabContent>
       </TabPanel>
       <TabPanel value={tabIndex} index={2}>
-        <TableContainer component={Paper} sx={{ minWidth: 650 }}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Value</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>MessageId</TableCell>
-                <TableCell>{messageId}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Subject</TableCell>
-                <TableCell>{subject}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>{createdAt}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>ContentType</TableCell>
-                <TableCell>{contentType}</TableCell>
-              </TableRow>
-              {fromAddresses && (
-                <TableRow>
-                  <TableCell>from</TableCell>
-                  <TableCell>
-                    {fromAddresses?.map(({ address, name }) => (
-                      <div key={`from-${address}`}>
-                        {address}
-                        {name && `<${name}>`}
-                      </div>
-                    ))}
-                  </TableCell>
-                </TableRow>
-              )}
-              {toAddresses && (
-                <TableRow>
-                  <TableCell>to</TableCell>
-                  <TableCell>
-                    {toAddresses?.map(({ address, name }) => (
-                      <div key={`to-${address}`}>
-                        {address}
-                        {name && `<${name}>`}
-                      </div>
-                    ))}
-                  </TableCell>
-                </TableRow>
-              )}
-              {ccAddresses && (
-                <TableRow>
-                  <TableCell>cc</TableCell>
-                  <TableCell>
-                    {ccAddresses?.map(({ address, name }) => (
-                      <div key={`cc-${address}`}>
-                        {address}
-                        {name && `<${name}>`}
-                      </div>
-                    ))}
-                  </TableCell>
-                </TableRow>
-              )}
-              {bccAddresses && (
-                <TableRow>
-                  <TableCell>bcc</TableCell>
-                  <TableCell>
-                    {bccAddresses?.map(({ address, name }) => (
-                      <div key={`bcc-${address}`}>
-                        {address}
-                        {name && `<${name}>`}
-                      </div>
-                    ))}
-                  </TableCell>
-                </TableRow>
-              )}
-              {Object.keys(extraHeaders).map((key) => (
-                <TableRow key={`${messageId}-${key}`}>
-                  <TableCell>{key}</TableCell>
-                  <TableCell>{extraHeaders[key]}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <TabContent>
+          <HeadersTable
+            messageId={messageId}
+            subject={subject}
+            createdAt={createdAt}
+            contentType={contentType}
+            fromAddresses={fromAddresses}
+            toAddresses={toAddresses}
+            ccAddresses={ccAddresses}
+            bccAddresses={bccAddresses}
+            extraHeaders={extraHeaders}
+          />
+        </TabContent>
       </TabPanel>
       <TabPanel value={tabIndex} index={3}>
-        <Stack direction="row" justifyContent="center" alignItems="flex-start">
-          <TableContainer component={Paper} sx={{ maxWidth: 600 }}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Size</TableCell>
-                  <TableCell>Download</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(attachedFiles ?? []).map(({ name, size, url }) => (
-                  <TableRow key={`${name}-${size}`}>
-                    <TableCell>{name}</TableCell>
-                    <TableCell>{size}</TableCell>
-                    <TableCell>
-                      <a href={url} download>
-                        <IconButton>
-                          <DownloadIcon />
-                        </IconButton>
-                      </a>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Stack>
+        <TabContent>
+          <AttachedFilesTable attachedFiles={attachedFiles} />
+        </TabContent>
       </TabPanel>
     </Box>
   );
