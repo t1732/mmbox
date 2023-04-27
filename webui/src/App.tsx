@@ -8,6 +8,7 @@ import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
 import { LayoutWrapper } from './components/LayoutWrapper';
 import { ScrollTop } from './components/ScrollTop';
 import { MailBox } from './pages/mails/MailBox';
+import { LocalStorageWrapper } from './tools/localStorageWrapper';
 
 const ConfirmDialog = lazy(() =>
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -53,9 +54,12 @@ const App = () => {
   const colorModeContext = useMemo(
     () => ({
       toggleColorMode: () => {
-        setColorMode((prevMode: PaletteMode) =>
-          prevMode === 'light' ? 'dark' : 'light',
-        );
+        setColorMode((prevMode: PaletteMode) => {
+          const color = prevMode === 'light' ? 'dark' : 'light';
+          LocalStorageWrapper.set({ colorMode: color });
+
+          return color;
+        });
       },
     }),
     [setColorMode],
