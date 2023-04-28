@@ -22,6 +22,8 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
+    environment:
+      TZ: Asia/Tokyo
     volumes:
       - type: volume
         source: mmbox-data

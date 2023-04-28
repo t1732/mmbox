@@ -5,6 +5,7 @@ services:
       dockerfile: Containerfile
       target: dev-backend
     environment:
+      TZ: Asia/Tokyo
       GOFLAGS: "-buildvcs=false"
       ALLOW_ORIGINS: "http://localhost:8825"
       MMBOX_DB_FILE_PATH: /data/mmbox.db
@@ -28,6 +29,7 @@ services:
       dockerfile: Containerfile
       target: dev-webui
     environment:
+      TZ: Asia/Tokyo
       MMBOX_API_BASE_URL: "http://localhost:8025"
     ports:
       - 8825:8825

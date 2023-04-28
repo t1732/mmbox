@@ -1,23 +1,18 @@
 # ============
 # dev backend
 # ============
-FROM golang:1.20.2-alpine as dev-backend
+FROM golang:1.20.3-alpine as dev-backend
 
-RUN apk add --no-cache gcc musl-dev git
+RUN apk add --no-cache gcc musl-dev tzdata
 
-ENV TZ=Asia/Tokyo
 ENV APP_ROOT=/go/app
 
 WORKDIR ${APP_ROOT}
 
 COPY go.mod go.sum .air.toml ./
 
-RUN go mod download \
-    && go install github.com/cosmtrek/air@latest
+RUN go install github.com/cosmtrek/air@latest
 
-ARG GOARCH=amd64
-ENV GOOS=linux
-ENV GOARCH=${GOARCH}
 ENV CGO_ENABLED=1
 
 CMD ["air", "-c", ".air.toml"]
@@ -27,7 +22,8 @@ CMD ["air", "-c", ".air.toml"]
 # ============
 FROM node:19.8.1-alpine3.17 as dev-webui
 
-ENV TZ=Asia/Tokyo
+RUN apk add --no-cache tzdata
+
 ENV APP_ROOT=/app
 
 WORKDIR ${APP_ROOT}
@@ -39,7 +35,7 @@ CMD ["npm", "run", "dev"]
 # ============
 FROM golang:1.20.2-alpine as build-backend
 
-RUN apk add --no-cache gcc musl-dev tzdata
+RUN apk add --no-cache gcc musl-dev
 
 ARG GOARCH=$BUILDPLATFORMFROM
 ENV GOOS=linux
@@ -68,9 +64,8 @@ RUN npm install && npm run build && mkdir /app && mv dist /app/ && rm -rf /works
 # ============
 FROM alpine:3.17.3 as release
 
-COPY --from=build-backend /usr/share/zoneinfo /usr/share/zoneinfo
+RUN apk add --no-cache tzdata
 
-ENV TZ=Asia/Tokyo
 ENV MMBOX_DB_FILE_PATH=/app/data/mmbox.db
 
 RUN addgroup mmbox && adduser -D -G mmbox mmbox
