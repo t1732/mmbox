@@ -2,7 +2,6 @@ package controller
 
 import (
 	"fmt"
-	"math"
 	"net/http"
 	"strconv"
 
@@ -11,7 +10,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/t1732/mmbox/internal/model"
-	"github.com/t1732/mmbox/internal/response"
+	"github.com/t1732/mmbox/internal/serialize"
 )
 
 type mailImpl interface {
@@ -42,38 +41,17 @@ func (h *mailController) Index(c echo.Context) error {
 		q.Select("id", "created_at", "source").Scopes(model.Paginate(page, per)).Order("id DESC").Find(&mails)
 	}
 
-	records := make([]response.Mail, len(mails))
-	for i, e := range mails {
-		pm, err := e.Parse()
+	records := make([]serialize.Mail, len(mails))
+	for i, m := range mails {
+		sm, err := serialize.NewMail(m, baseUrl)
 		if err != nil {
 			return err
 		}
 
-		records[i] = response.Mail{
-			CreatedAt:    e.CreatedAt,
-			Subject:      pm.Headers.Subject,
-			MessageID:    string(pm.Headers.MessageID),
-			ContentType:  pm.Headers.ContentType.ContentType,
-			Text:         pm.Text,
-			HTML:         pm.HTML,
-			ExtraHeaders: pm.Headers.ExtraHeaders,
-		}
-		records[i].SetFromAddresses(pm.Headers.From)
-		records[i].SetToAddresses(pm.Headers.To)
-		records[i].SetCcAddresses(pm.Headers.Cc)
-		records[i].SetBccAddresses(pm.Headers.Bcc)
-		records[i].SetAttachedFiles(pm.AttachedFiles, e.ID, baseUrl)
-		records[i].ReplaceInlineCIDtoURL(e.ID, baseUrl)
+		records[i] = sm
 	}
 
-	return c.JSON(http.StatusOK, response.Mails{
-		Metadata: response.Metadata{
-			Page: response.Page{
-				Current: page, Per: per, Total: total, TotalPages: int(math.Ceil(float64(total) / float64(per))),
-			},
-		},
-		Records: records,
-	})
+	return c.JSON(http.StatusOK, serialize.NewPagination(records, page, per, total))
 }
 
 func (h *mailController) InlineFile(c echo.Context) error {
