@@ -1,7 +1,7 @@
 # ============
 # dev backend
 # ============
-FROM golang:1.20.3-alpine as dev-backend
+FROM golang:1.20.4-alpine as dev-backend
 
 RUN apk add --no-cache gcc musl-dev tzdata
 
@@ -20,7 +20,7 @@ CMD ["air", "-c", ".air.toml"]
 # ============
 # dev webui
 # ============
-FROM node:19.8.1-alpine3.17 as dev-webui
+FROM node:20.1.0-alpine as dev-webui
 
 RUN apk add --no-cache tzdata
 
@@ -33,7 +33,7 @@ CMD ["npm", "run", "dev"]
 # ============
 # build backend
 # ============
-FROM golang:1.20.2-alpine as build-backend
+FROM golang:1.20.4-alpine as build-backend
 
 RUN apk add --no-cache gcc musl-dev
 
@@ -52,7 +52,7 @@ RUN go mod download \
 # ============
 # build webui
 # ============
-FROM node:19.8.1-alpine3.17 as build-webui
+FROM node:20.1.0-alpine as build-webui
 
 WORKDIR /workspace
 
@@ -62,7 +62,7 @@ RUN npm install && npm run build && mkdir /app && mv dist /app/ && rm -rf /works
 # ============
 # release
 # ============
-FROM alpine:3.17.3 as release
+FROM alpine:3.17 as release
 
 RUN apk add --no-cache tzdata
 
