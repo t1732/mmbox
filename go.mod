@@ -1,6 +1,6 @@
 module github.com/t1732/mmbox
 
-go 1.20
+go 1.21
 
 require (
 	github.com/emersion/go-smtp v0.16.0

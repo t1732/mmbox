@@ -1,7 +1,7 @@
 # ============
 # dev backend
 # ============
-FROM golang:1.20.4-alpine as dev-backend
+FROM golang:1.21.0-alpine as dev-backend
 
 RUN apk add --no-cache gcc musl-dev tzdata
 
@@ -33,7 +33,7 @@ CMD ["npm", "run", "dev"]
 # ============
 # build backend
 # ============
-FROM golang:1.20.4-alpine as build-backend
+FROM golang:1.21.0-alpine as build-backend
 
 RUN apk add --no-cache gcc musl-dev
 
