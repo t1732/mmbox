@@ -20,7 +20,7 @@ CMD ["air", "-c", ".air.toml"]
 # ============
 # dev webui
 # ============
-FROM node:20.1.0-alpine as dev-webui
+FROM node:20.5.1-alpine as dev-webui
 
 RUN apk add --no-cache tzdata
 
@@ -28,7 +28,7 @@ ENV APP_ROOT=/app
 
 WORKDIR ${APP_ROOT}
 
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "npm install && npm run dev"]
 
 # ============
 # build backend
@@ -52,7 +52,7 @@ RUN go mod download \
 # ============
 # build webui
 # ============
-FROM node:20.1.0-alpine as build-webui
+FROM node:20.5.1-alpine as build-webui
 
 WORKDIR /workspace
 
