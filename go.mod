@@ -3,7 +3,7 @@ module github.com/t1732/mmbox
 go 1.21
 
 require (
-	github.com/emersion/go-smtp v0.16.0
+	github.com/emersion/go-smtp v0.18.0
 	github.com/glebarez/sqlite v1.8.0
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/labstack/gommon v0.4.0
