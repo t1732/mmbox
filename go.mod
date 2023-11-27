@@ -7,7 +7,7 @@ require (
 	github.com/glebarez/sqlite v1.10.0
 	github.com/labstack/echo/v4 v4.11.3
 	github.com/labstack/gommon v0.4.1
-	github.com/mnako/letters v0.2.0
+	github.com/mnako/letters v0.2.2
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/net v0.17.0
 	gorm.io/driver/sqlite v1.5.3
