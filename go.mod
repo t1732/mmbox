@@ -10,7 +10,7 @@ require (
 	github.com/mnako/letters v0.2.2
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/net v0.18.0
-	gorm.io/driver/sqlite v1.5.3
+	gorm.io/driver/sqlite v1.5.4
 	gorm.io/gorm v1.25.5
 )
 
