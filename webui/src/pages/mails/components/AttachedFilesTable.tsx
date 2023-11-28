@@ -31,7 +31,7 @@ export const AttachedFilesTable = ({ attachedFiles }: Props) => (
               <TableCell>{name}</TableCell>
               <TableCell>{size}</TableCell>
               <TableCell>
-                <a href={url} download>
+                <a href={url} download aria-label={name}>
                   <IconButton>
                     <DownloadIcon />
                   </IconButton>
