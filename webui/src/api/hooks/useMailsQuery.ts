@@ -57,5 +57,5 @@ export const useMailsQuery = ({ word, date, page }: QueryOptions) =>
   useQuery({
     queryKey: [mailsKeys.index(word, date, page)],
     queryFn: async () => fetchData(word, date, page),
-    keepPreviousData: true,
+    placeholderData: (previousData, _previousQuery) => previousData,
   });
