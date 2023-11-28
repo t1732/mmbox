@@ -17,6 +17,7 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+.go
 .go-build
 bin/
 tmp/
@@ -36,6 +37,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.stories
 
 # Editor directories and files
 .vscode/*
