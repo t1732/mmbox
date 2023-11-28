@@ -92,7 +92,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <LayoutWrapper
-          loading={deleteMutation.isLoading}
+          loading={deleteMutation.isPending}
           colorMode={colorMode}
           searchingBadge={searchWord !== '' || searchDate !== ''}
           handleDelete={handleDelete}
