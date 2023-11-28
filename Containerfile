@@ -5,17 +5,15 @@ FROM golang:1.21.4-alpine as dev-backend
 
 RUN apk add --no-cache gcc musl-dev tzdata
 
-ENV APP_ROOT=/go/app
+ENV APP_ROOT=/app
 
 WORKDIR ${APP_ROOT}
 
 COPY go.mod go.sum .air.toml ./
 
-RUN go install github.com/cosmtrek/air@latest
-
 ENV CGO_ENABLED=1
 
-CMD ["air", "-c", ".air.toml"]
+CMD ["sh", "-c", "go install github.com/cosmtrek/air@latest && air -c .air.toml"]
 
 # ============
 # dev webui

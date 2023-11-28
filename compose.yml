@@ -17,6 +17,9 @@ services:
       - type: bind
         source: ./
         target: /go/app
+      - type: bind
+        source: ./.go
+        target: /go
       - type: volume
         source: sqlite-data
         target: /data
