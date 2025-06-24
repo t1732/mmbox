@@ -1,7 +1,7 @@
 # ============
 # dev backend
 # ============
-FROM golang:1.21.4-alpine as dev-backend
+FROM golang:1.24.4-alpine AS dev-backend
 
 RUN apk add --no-cache gcc musl-dev tzdata
 
@@ -13,12 +13,12 @@ COPY go.mod go.sum .air.toml ./
 
 ENV CGO_ENABLED=1
 
-CMD ["sh", "-c", "go install github.com/cosmtrek/air@latest && air -c .air.toml"]
+CMD ["sh", "-c", "go install github.com/air-verse/air@latest && air -c .air.toml"]
 
 # ============
 # dev webui
 # ============
-FROM node:20.10.0-alpine as dev-webui
+FROM node:22.16.0-alpine AS dev-webui
 
 RUN apk add --no-cache tzdata
 
@@ -31,13 +31,13 @@ CMD ["sh", "-c", "npm install && npm run dev"]
 # ============
 # build backend
 # ============
-FROM golang:1.21.4-alpine as build-backend
+FROM golang:1.24.4-alpine AS build-backend
 
 RUN apk add --no-cache gcc musl-dev
 
 ARG GOARCH=$BUILDPLATFORMFROM
 ENV GOOS=linux
-ENV GOARCH=${GOARCH}
+ENV GOARCH=$GOARCH
 ENV CGO_ENABLED=1
 
 WORKDIR /workspace
@@ -50,7 +50,7 @@ RUN go mod download \
 # ============
 # build webui
 # ============
-FROM node:20.10.0-alpine as build-webui
+FROM node:22.16.0-alpine AS build-webui
 
 WORKDIR /workspace
 
@@ -60,7 +60,7 @@ RUN npm install && npm run build && mkdir /app && mv dist /app/ && rm -rf /works
 # ============
 # release
 # ============
-FROM alpine:3.17 as release
+FROM alpine:latest AS release
 
 RUN apk add --no-cache tzdata
 
