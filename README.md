@@ -96,3 +96,16 @@ WantedBy=multi-user.target
 systemctl enable mmbox
 systemctl start mmbox
 ```
+
+## build
+
+```shell
+docker build --platform=linux/amd64,linux/arm64 -t mmbox:latest -f Containerfile .
+```
+
+build windows binary
+
+```shell
+docker build -t mmbox:win-amd64 --build-arg TARGETOS=windows --build-arg TARGETARCH=amd64 -f Containerfile .
+docker run --rm -v ./:/work mmbox:win-amd64 cp /app/bin/mmbox /work/mmbox.exe
+```
