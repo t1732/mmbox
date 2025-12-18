@@ -29,10 +29,13 @@ export const MailBoxRowSkeleton = ({ count }: { count: number }) => {
 
   return (
     <div>
-      {nodes.map((n, i) => (
-        <div key={`item-${n?.toLocaleString() || i}`}>
-          {n}
-          {i + 1 < nodes.length && <Divider variant="inset" component="div" />}
+      {nodes.map((node, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: <i> is fine here since the list is static
+        <div key={`item-${index}`}>
+          {node}
+          {index + 1 < nodes.length && (
+            <Divider variant="inset" component="div" />
+          )}
         </div>
       ))}
     </div>
