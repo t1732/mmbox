@@ -2,24 +2,25 @@ import {
   Paper,
   Table,
   TableBody,
-  TableContainer,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-} from '@mui/material';
-import { Mail } from '../../../api/hooks/useMailsQuery';
+} from "@mui/material";
+
+import type { Mail } from "../../../api/hooks/useMailsQuery";
 
 type Props = Pick<
   Mail,
-  | 'messageId'
-  | 'subject'
-  | 'createdAt'
-  | 'contentType'
-  | 'fromAddresses'
-  | 'toAddresses'
-  | 'ccAddresses'
-  | 'bccAddresses'
-  | 'extraHeaders'
+  | "messageId"
+  | "subject"
+  | "createdAt"
+  | "contentType"
+  | "fromAddresses"
+  | "toAddresses"
+  | "ccAddresses"
+  | "bccAddresses"
+  | "extraHeaders"
 >;
 
 export const HeadersTable = ({

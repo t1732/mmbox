@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   Divider,
   List,
@@ -6,18 +5,20 @@ import {
   ListItemButton,
   ListItemText,
   Skeleton,
-} from '@mui/material';
-import './MailSummary.css';
+} from "@mui/material";
+
+import type { ReactNode } from "react";
+import "./MailSummary.css";
 
 const node = (
-  <List sx={{ width: '100%' }} component="div">
+  <List sx={{ width: "100%" }} component="div">
     <ListItemButton>
       <ListItemAvatar>
         <Skeleton variant="circular" width={40} height={40} />
       </ListItemAvatar>
       <ListItemText
-        primary={<Skeleton variant="text" sx={{ fontSize: '1rem' }} />}
-        secondary={<Skeleton variant="text" sx={{ fontSize: '1rem' }} />}
+        primary={<Skeleton variant="text" sx={{ fontSize: "1rem" }} />}
+        secondary={<Skeleton variant="text" sx={{ fontSize: "1rem" }} />}
       />
     </ListItemButton>
   </List>
@@ -29,8 +30,7 @@ export const MailBoxRowSkeleton = ({ count }: { count: number }) => {
   return (
     <div>
       {nodes.map((n, i) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <div key={`item-${i}`}>
+        <div key={`item-${n?.toLocaleString() || i}`}>
           {n}
           {i + 1 < nodes.length && <Divider variant="inset" component="div" />}
         </div>

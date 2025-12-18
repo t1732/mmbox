@@ -1,14 +1,14 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 import {
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Stack,
-} from '@mui/material';
+  TextField,
+} from "@mui/material";
 
 type Props = {
   open: boolean;
@@ -29,7 +29,7 @@ export const SearchDialog = ({
   const dateRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Dialog open={open} maxWidth="md" fullWidth sx={{ top: '-50%' }}>
+    <Dialog open={open} maxWidth="md" fullWidth sx={{ top: "-50%" }}>
       <DialogTitle>Search</DialogTitle>
       <DialogContent>
         <DialogContentText>You can search by text and date.</DialogContentText>
@@ -64,8 +64,8 @@ export const SearchDialog = ({
           color="secondary"
           onClick={() => {
             handleSearch(
-              wordRef.current?.value ?? '',
-              dateRef.current?.value ?? '',
+              wordRef.current?.value ?? "",
+              dateRef.current?.value ?? "",
             );
           }}
         >

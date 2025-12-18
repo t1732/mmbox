@@ -1,4 +1,4 @@
-import { atom } from 'jotai';
+import { atom } from "jotai";
 
 type Params = {
   word: string;
@@ -6,6 +6,6 @@ type Params = {
 };
 
 export const searchParamsState = atom<Params>({
-  word: '',
-  date: '',
+  word: "",
+  date: "",
 });

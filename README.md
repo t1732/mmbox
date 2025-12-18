@@ -14,7 +14,6 @@ docker run -p 8025:8025 -p 1025:1025 sqrt3/mmbox:latest
 sample
 
 ```yml
-version: '3'
 services:
   mmbox:
     image: sqrt3/mmbox
@@ -100,12 +99,12 @@ systemctl start mmbox
 ## build
 
 ```shell
-docker build --platform=linux/amd64,linux/arm64 -t mmbox:latest -f Containerfile .
+docker build --platform=linux/amd64,linux/arm64 -t mmbox:latest .
 ```
 
 build windows binary
 
 ```shell
-docker build -t mmbox:win-amd64 --build-arg TARGETOS=windows --build-arg TARGETARCH=amd64 -f Containerfile .
+docker build -t mmbox:win-amd64 --build-arg TARGETOS=windows --build-arg TARGETARCH=amd64 .
 docker run --rm -v ./:/work mmbox:win-amd64 cp /app/bin/mmbox /work/mmbox.exe
 ```

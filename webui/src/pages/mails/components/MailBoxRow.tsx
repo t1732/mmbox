@@ -1,6 +1,7 @@
-import { Mail } from '../../../api/hooks/useMailsQuery';
-import { MailSummary } from './MailSummary';
-import { MailDetail } from './MailDetail';
+import { MailDetail } from "./MailDetail";
+import { MailSummary } from "./MailSummary";
+
+import type { Mail } from "../../../api/hooks/useMailsQuery";
 
 type Props = Mail;
 

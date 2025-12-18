@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { axios } from '../axios';
+import { useQuery } from "@tanstack/react-query";
+
+import { axios } from "../axios";
 
 export type Mail = {
   messageId: string;
@@ -36,12 +37,12 @@ type MailsGetResponse = {
 
 export const mailsKeys = {
   index: (word?: string, date?: string, page?: number) =>
-    ['mails', word, date, page] as const,
+    ["mails", word, date, page] as const,
 };
 
 const fetchData = async (word?: string, date?: string, page?: number) => {
   const { data } = await axios.get<MailsGetResponse>(
-    `/mails?word=${word ?? ''}&date=${date ?? ''}&page=${page ?? 1}&per=100`,
+    `/mails?word=${word ?? ""}&date=${date ?? ""}&page=${page ?? 1}&per=100`,
   );
 
   return data;

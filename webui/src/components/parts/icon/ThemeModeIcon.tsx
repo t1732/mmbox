@@ -1,5 +1,6 @@
-import { SxProps } from '@mui/material/styles';
-import { DarkMode, DarkModeOutlined } from '@mui/icons-material';
+import { DarkMode, DarkModeOutlined } from "@mui/icons-material";
+
+import type { SxProps } from "@mui/material/styles";
 
 type Props = {
   outlined?: boolean;

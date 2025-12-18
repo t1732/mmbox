@@ -1,5 +1,5 @@
 type Setting = {
-  colorMode: 'light' | 'dark';
+  colorMode: "light" | "dark";
 };
 
 class LocalStorageWrapper {
@@ -8,7 +8,7 @@ class LocalStorageWrapper {
   json: string;
 
   constructor() {
-    this.key = 'mmboxSetting';
+    this.key = "mmboxSetting";
     this.json = JSON.stringify({});
   }
 
@@ -17,7 +17,7 @@ class LocalStorageWrapper {
   }
 
   get(): Setting {
-    return JSON.parse(localStorage.getItem(this.key) ?? '{}') as Setting;
+    return JSON.parse(localStorage.getItem(this.key) ?? "{}") as Setting;
   }
 }
 

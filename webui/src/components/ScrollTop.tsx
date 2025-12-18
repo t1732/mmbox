@@ -1,6 +1,7 @@
-import { MouseEvent } from 'react';
-import { Fab, Fade, Box, useScrollTrigger } from '@mui/material';
-import { KeyboardArrowUp } from '@mui/icons-material';
+import { KeyboardArrowUp } from "@mui/icons-material";
+import { Box, Fab, Fade, useScrollTrigger } from "@mui/material";
+
+import type { MouseEvent } from "react";
 
 export const ScrollTop = ({ targetId }: { targetId: string }) => {
   const trigger = useScrollTrigger({
@@ -16,7 +17,7 @@ export const ScrollTop = ({ targetId }: { targetId: string }) => {
 
     if (anchor) {
       anchor.scrollIntoView({
-        block: 'center',
+        block: "center",
       });
     }
   };
@@ -26,7 +27,7 @@ export const ScrollTop = ({ targetId }: { targetId: string }) => {
       <Box
         onClick={handleClick}
         role="presentation"
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}
+        sx={{ position: "fixed", bottom: 16, right: 16 }}
       >
         <Fab size="small" aria-label="scroll back to top" color="secondary">
           <KeyboardArrowUp />

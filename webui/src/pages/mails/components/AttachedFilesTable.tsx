@@ -7,12 +7,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@mui/material';
-import { IconButton } from '../../../components/parts';
-import { DownloadIcon } from '../../../components/parts/icon';
-import { Mail } from '../../../api/hooks/useMailsQuery';
+} from "@mui/material";
 
-type Props = Pick<Mail, 'attachedFiles'>;
+import { IconButton } from "../../../components/parts";
+import { DownloadIcon } from "../../../components/parts/icon";
+
+import type { Mail } from "../../../api/hooks/useMailsQuery";
+
+type Props = Pick<Mail, "attachedFiles">;
 
 export const AttachedFilesTable = ({ attachedFiles }: Props) => (
   <Stack direction="row" justifyContent="center" alignItems="flex-start">

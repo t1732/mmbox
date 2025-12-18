@@ -18,9 +18,11 @@ CMD ["sh", "-c", "go install github.com/air-verse/air@v1.63.4 && air -c .air.tom
 # ============
 # dev webui
 # ============
-FROM node:24.12.0-alpine AS dev-webui
+FROM node:24.12.0-slim AS dev-webui
 
-RUN apk add --no-cache tzdata
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y ca-certificates curl tzdata git && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 ENV APP_ROOT=/app
 
