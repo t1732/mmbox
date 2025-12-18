@@ -1,5 +1,6 @@
-import { SxProps } from '@mui/material/styles';
-import { AttachFile } from '@mui/icons-material';
+import { AttachFile } from "@mui/icons-material";
+
+import type { SxProps } from "@mui/material/styles";
 
 type Props = {
   sx?: SxProps;

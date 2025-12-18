@@ -1,4 +1,5 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   Avatar,
   Collapse,
@@ -6,16 +7,20 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
-} from '@mui/material';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
-import { Mail } from '../../../api/hooks/useMailsQuery';
-import { RelativeTimeText } from '../../../components/parts';
-import { AttachFileIcon } from '../../../components/parts/icon';
-import { Merge, messageIdToAnchorId } from '../../../tools';
-import './MailSummary.css';
+} from "@mui/material";
+
+import { RelativeTimeText } from "../../../components/parts";
+import { AttachFileIcon } from "../../../components/parts/icon";
+import { messageIdToAnchorId } from "../../../tools";
+
+import type { ReactNode } from "react";
+import type { Mail } from "../../../api/hooks/useMailsQuery";
+import type { Merge } from "../../../tools";
+
+import "./MailSummary.css";
 
 type Props = Merge<
-  Pick<Mail, 'messageId' | 'subject' | 'createdAt' | 'fromAddresses'>,
+  Pick<Mail, "messageId" | "subject" | "createdAt" | "fromAddresses">,
   {
     hasAttachments: boolean;
     children: ReactNode;
@@ -48,7 +53,7 @@ export const MailSummary = ({
 
     if (anchor) {
       anchor.scrollIntoView({
-        block: 'center',
+        block: "center",
       });
     }
   };
@@ -57,13 +62,13 @@ export const MailSummary = ({
     () =>
       fromAddresses
         ?.map(({ address, name }) => concatAddress(address, name))
-        .join(','),
+        .join(","),
     [fromAddresses],
   );
 
   const avatarStr = useMemo<string>(() => {
     if (fromAddresses === null) {
-      return '-';
+      return "-";
     }
 
     if (fromAddresses[0].name) {
@@ -81,14 +86,14 @@ export const MailSummary = ({
             <AttachFileIcon
               sx={{
                 fontSize: 20,
-                position: 'absolute',
+                position: "absolute",
                 zIndex: 1,
                 left: 38,
                 top: 12,
               }}
             />
           )}
-          <Avatar sx={{ bgcolor: 'secondary.main' }}>{avatarStr}</Avatar>
+          <Avatar sx={{ bgcolor: "secondary.main" }}>{avatarStr}</Avatar>
         </ListItemAvatar>
         <ListItemText
           disableTypography

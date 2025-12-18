@@ -2,7 +2,6 @@ services:
   app:
     build:
       context: .
-      dockerfile: Containerfile
       target: dev-backend
     environment:
       TZ: Asia/Tokyo
@@ -29,7 +28,6 @@ services:
   webui:
     build:
       context: .
-      dockerfile: Containerfile
       target: dev-webui
     environment:
       TZ: Asia/Tokyo

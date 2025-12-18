@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError } from "axios";
 
 const instance = axios.create({
   baseURL: MMBOX_API_BASE_URL,

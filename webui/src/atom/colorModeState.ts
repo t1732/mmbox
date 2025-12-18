@@ -1,9 +1,11 @@
-import { atom } from 'jotai';
-import { PaletteMode } from '@mui/material';
-import { LocalStorageWrapper } from '../tools/localStorageWrapper';
+import { atom } from "jotai";
 
-const darkModeMq = window.matchMedia('(prefers-color-scheme: dark)');
+import { LocalStorageWrapper } from "../tools/localStorageWrapper";
+
+import type { PaletteMode } from "@mui/material";
+
+const darkModeMq = window.matchMedia("(prefers-color-scheme: dark)");
 const defaultColorMode = LocalStorageWrapper.get().colorMode ?? null;
 export const colorModeState = atom<PaletteMode>(
-  defaultColorMode ?? (darkModeMq.matches ? 'dark' : 'light'),
+  defaultColorMode ?? (darkModeMq.matches ? "dark" : "light"),
 );

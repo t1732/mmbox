@@ -1,24 +1,27 @@
-import { createContext, lazy, useMemo, useState, Suspense } from 'react';
-import { CssBaseline, PaletteMode } from '@mui/material';
-import { red } from '@mui/material/colors';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useAtom } from 'jotai';
-import { colorModeState, searchParamsState } from './atom';
-import { useDeleteMailsMutation } from './api/hooks/useDeleteMialsMutation';
-import { LayoutWrapper } from './components/LayoutWrapper';
-import { ScrollTop } from './components/ScrollTop';
-import { MailBox } from './pages/mails/MailBox';
-import { LocalStorageWrapper } from './tools/localStorageWrapper';
+import { createContext, lazy, Suspense, useMemo, useState } from "react";
+import { CssBaseline } from "@mui/material";
+import { red } from "@mui/material/colors";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useAtom } from "jotai";
+
+import { useDeleteMailsMutation } from "./api/hooks/useDeleteMialsMutation";
+import { colorModeState, searchParamsState } from "./atom";
+import { LayoutWrapper } from "./components/LayoutWrapper";
+import { ScrollTop } from "./components/ScrollTop";
+import { MailBox } from "./pages/mails/MailBox";
+import { LocalStorageWrapper } from "./tools/localStorageWrapper";
+
+import type { PaletteMode } from "@mui/material";
 
 const ConfirmDialog = lazy(() =>
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  import('./components/ConfirmDialog').then(({ ConfirmDialog }) => ({
+  import("./components/ConfirmDialog").then(({ ConfirmDialog }) => ({
     default: ConfirmDialog,
   })),
 );
 const SearchDialog = lazy(() =>
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  import('./components/SearchDialog').then(({ SearchDialog }) => ({
+  import("./components/SearchDialog").then(({ SearchDialog }) => ({
     default: SearchDialog,
   })),
 );
@@ -27,11 +30,11 @@ const ColorModeContext = createContext({ toggleColorMode: () => {} });
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
     mode,
-    ...(mode === 'light'
+    ...(mode === "light"
       ? {
           // light mode
           primary: {
-            main: '#ffffff',
+            main: "#ffffff",
           },
           secondary: {
             main: red[700],
@@ -40,7 +43,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
       : {
           // dark mode
           primary: {
-            main: '#000000',
+            main: "#000000",
           },
           secondary: {
             main: red[400],
@@ -55,7 +58,7 @@ const App = () => {
     () => ({
       toggleColorMode: () => {
         setColorMode((prevMode: PaletteMode) => {
-          const color = prevMode === 'light' ? 'dark' : 'light';
+          const color = prevMode === "light" ? "dark" : "light";
           LocalStorageWrapper.set({ colorMode: color });
 
           return color;
@@ -94,7 +97,7 @@ const App = () => {
         <LayoutWrapper
           loading={deleteMutation.isPending}
           colorMode={colorMode}
-          searchingBadge={searchWord !== '' || searchDate !== ''}
+          searchingBadge={searchWord !== "" || searchDate !== ""}
           handleDelete={handleDelete}
           handleSearch={() => setSearchOpen(true)}
           handleToggleColorMode={colorModeContext.toggleColorMode}

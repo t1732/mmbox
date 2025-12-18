@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@mui/material';
+} from "@mui/material";
 
 type Props = {
   open: boolean;
@@ -22,7 +22,7 @@ export const ConfirmDialog = ({
   handleCancel,
   handleApply,
 }: Props) => (
-  <Dialog open={open} maxWidth="xs" fullWidth sx={{ top: '-50%' }}>
+  <Dialog open={open} maxWidth="xs" fullWidth sx={{ top: "-50%" }}>
     <DialogTitle>{title}</DialogTitle>
     <DialogContent>
       <DialogContentText>{message}</DialogContentText>

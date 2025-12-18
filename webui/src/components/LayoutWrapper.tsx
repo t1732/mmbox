@@ -1,7 +1,9 @@
-import { ReactNode } from 'react';
-import { Header, Props as HeaderProps } from './layouts/Header';
-import { MainContainer } from './layouts/MainContainer';
-import { Merge } from '../tools';
+import { Header } from "./layouts/Header";
+import { MainContainer } from "./layouts/MainContainer";
+
+import type { ReactNode } from "react";
+import type { Merge } from "../tools";
+import type { Props as HeaderProps } from "./layouts/Header";
 
 type Props = Merge<
   HeaderProps,

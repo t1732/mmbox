@@ -1,4 +1,4 @@
-import { IconButton } from './IconButton';
-import { RelativeTimeText } from './RelativeTimeText';
+import { IconButton } from "./IconButton";
+import { RelativeTimeText } from "./RelativeTimeText";
 
 export { IconButton, RelativeTimeText };

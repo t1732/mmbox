@@ -37,7 +37,6 @@ node_modules
 dist
 dist-ssr
 *.local
-.stories
 
 # Editor directories and files
 .vscode/*

@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { ChangeEvent, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useState } from "react";
 import {
   Alert,
   AlertTitle,
@@ -10,12 +9,16 @@ import {
   Pagination,
   Stack,
   Typography,
-} from '@mui/material';
-import { searchParamsState } from '../../atom';
-import { useMailsQuery } from '../../api/hooks/useMailsQuery';
-import { messageIdToAnchorId } from '../../tools';
-import { MailBoxRow } from './components/MailBoxRow';
-import { MailBoxRowSkeleton } from './components/MailBoxRowSkeleton';
+} from "@mui/material";
+import { useAtomValue } from "jotai";
+
+import { useMailsQuery } from "../../api/hooks/useMailsQuery";
+import { searchParamsState } from "../../atom";
+import { messageIdToAnchorId } from "../../tools";
+import { MailBoxRow } from "./components/MailBoxRow";
+import { MailBoxRowSkeleton } from "./components/MailBoxRowSkeleton";
+
+import type { ChangeEvent } from "react";
 
 export const MailBox = () => {
   const [page, setPage] = useState(1);
@@ -28,7 +31,7 @@ export const MailBox = () => {
     page,
   });
 
-  const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (_event: ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
@@ -42,7 +45,7 @@ export const MailBox = () => {
 
   if (isError) {
     return (
-      <Stack sx={{ width: '100%', marginTop: '10px' }} spacing={2}>
+      <Stack sx={{ width: "100%", marginTop: "10px" }} spacing={2}>
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           Failed to retrieve data.
@@ -53,7 +56,7 @@ export const MailBox = () => {
 
   if (data === undefined || data.records.length === 0) {
     return (
-      <Stack sx={{ width: '100%', marginTop: '10px' }} spacing={2}>
+      <Stack sx={{ width: "100%", marginTop: "10px" }} spacing={2}>
         <Alert severity="info">
           <AlertTitle>Info</AlertTitle>
           There is no data.
@@ -65,7 +68,7 @@ export const MailBox = () => {
   return (
     <>
       <Card variant="outlined">
-        <List sx={{ width: '100%', padding: 0 }} component="div">
+        <List sx={{ width: "100%", padding: 0 }} component="div">
           {data.records.map((mail, i) => (
             <div key={mail.messageId} id={messageIdToAnchorId(mail.messageId)}>
               <MailBoxRow {...mail} />
@@ -82,17 +85,17 @@ export const MailBox = () => {
         alignItems="center"
         color="secondary"
         sx={{
-          position: 'sticky',
+          position: "sticky",
           bottom: 0,
-          paddingTop: '20px',
-          paddingBottom: '15px',
+          paddingTop: "20px",
+          paddingBottom: "15px",
         }}
       >
         {data._metadata.page.totalPages <= 1 ? null : (
           <Pagination
             count={data._metadata.page.totalPages}
             color="secondary"
-            sx={{ bgcolor: 'primary.main', padding: '5px' }}
+            sx={{ bgcolor: "primary.main", padding: "5px" }}
             onChange={handlePageChange}
           />
         )}

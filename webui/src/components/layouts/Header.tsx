@@ -3,11 +3,12 @@ import {
   Badge,
   Box,
   Container,
-  Typography,
   Toolbar,
-} from '@mui/material';
-import { IconButton } from '../parts/IconButton';
-import { DeleteIcon, SearchIcon, ThemeModeIcon } from '../parts/icon';
+  Typography,
+} from "@mui/material";
+
+import { IconButton } from "../parts/IconButton";
+import { DeleteIcon, SearchIcon, ThemeModeIcon } from "../parts/icon";
 
 export type Props = {
   loading: boolean;
@@ -36,11 +37,11 @@ export const Header = ({
           href="/"
           sx={{
             mr: 2,
-            fontFamily: 'monospace',
+            fontFamily: "monospace",
             fontWeight: 700,
-            letterSpacing: '.3rem',
-            color: 'secondary.main',
-            textDecoration: 'none',
+            letterSpacing: ".3rem",
+            color: "secondary.main",
+            textDecoration: "none",
           }}
         >
           MMBOX
@@ -53,11 +54,11 @@ export const Header = ({
             color="secondary"
             onClick={handleSearch}
             disabled={loading}
-            loadingProps={{ size: 24, color: 'secondary' }}
+            loadingProps={{ size: 24, color: "secondary" }}
           >
             <Badge
               color="secondary"
-              variant={searchingBadge ? 'dot' : 'standard'}
+              variant={searchingBadge ? "dot" : "standard"}
             >
               <SearchIcon />
             </Badge>
@@ -69,7 +70,7 @@ export const Header = ({
             onClick={handleDelete}
             loading={loading}
             disabled={loading}
-            loadingProps={{ size: 24, color: 'secondary' }}
+            loadingProps={{ size: 24, color: "secondary" }}
           >
             <DeleteIcon />
           </IconButton>
@@ -79,7 +80,7 @@ export const Header = ({
             color="secondary"
             onClick={handleToggleColorMode}
           >
-            <ThemeModeIcon outlined={colorMode === 'dark'} />
+            <ThemeModeIcon outlined={colorMode === "dark"} />
           </IconButton>
         </Box>
       </Toolbar>

@@ -1,5 +1,6 @@
-import { focusManager, useMutation } from '@tanstack/react-query';
-import { axios } from '../axios';
+import { focusManager, useMutation } from "@tanstack/react-query";
+
+import { axios } from "../axios";
 
 type MailsDeleteResponse = null;
 

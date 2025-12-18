@@ -1,2 +1,2 @@
 export const messageIdToAnchorId = (messageId: string) =>
-  messageId.split('@')[0];
+  messageId.split("@")[0];
